@@ -14,7 +14,6 @@
  */
 package scrum.client;
 
-import ilarkesto.core.base.Str;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.scope.Scope;
 import ilarkesto.gwt.client.AGwtApplication;
@@ -114,13 +113,13 @@ public class ScrumGwtApplication extends GScrumGwtApplication {
 
 	@Override
 	public void handleCommunicationError(Throwable ex) {
-		Scope.get().getComponent(Ui.class).getWorkspace().abort(Str.formatException(ex));
+		Scope.get().getComponent(Ui.class).getWorkspace().abort("The communication to the server was interrupted.");
 	}
 
 	@Override
 	protected void handleUnexpectedError(Throwable ex) {
 		log.error("Unexpected error:", ex);
-		Scope.get().getComponent(Ui.class).getWorkspace().abort("Unexpected error: " + Str.formatException(ex));
+		Scope.get().getComponent(Ui.class).getWorkspace().abort("An unexpected error occurred.");
 	}
 
 	@Override
