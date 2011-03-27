@@ -15,7 +15,7 @@
 package scrum.client.release;
 
 import ilarkesto.core.base.Utl;
-import ilarkesto.gwt.client.Date;
+import ilarkesto.core.time.Date;
 import ilarkesto.gwt.client.HyperlinkWidget;
 import ilarkesto.gwt.client.editor.AFieldModel;
 
@@ -90,7 +90,7 @@ public class Release extends GRelease implements ReferenceSupport, ForumSupport 
 
 	@Override
 	public Widget createForumItemWidget() {
-		return new HyperlinkWidget(new ShowEntityAction(this, getLabel()));
+		return new HyperlinkWidget(new ShowEntityAction(ReleaseManagementWidget.class, this, getLabel()));
 	}
 
 	public String createIzemizedReleaseNotes() {

@@ -391,20 +391,20 @@ public abstract class GProject
 
     // --- begin ---
 
-    private ilarkesto.gwt.client.Date begin ;
+    private ilarkesto.core.time.Date begin ;
 
-    public final ilarkesto.gwt.client.Date getBegin() {
+    public final ilarkesto.core.time.Date getBegin() {
         return this.begin ;
     }
 
-    public final Project setBegin(ilarkesto.gwt.client.Date begin) {
+    public final Project setBegin(ilarkesto.core.time.Date begin) {
         if (isBegin(begin)) return (Project)this;
         this.begin = begin ;
         propertyChanged("begin", this.begin);
         return (Project)this;
     }
 
-    public final boolean isBegin(ilarkesto.gwt.client.Date begin) {
+    public final boolean isBegin(ilarkesto.core.time.Date begin) {
         return equals(this.begin, begin);
     }
 
@@ -425,17 +425,17 @@ public abstract class GProject
         }
 
         @Override
-        public ilarkesto.gwt.client.Date getValue() {
+        public ilarkesto.core.time.Date getValue() {
             return getBegin();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.Date value) {
+        public void setValue(ilarkesto.core.time.Date value) {
             setBegin(value);
         }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.Date oldValue, ilarkesto.gwt.client.Date newValue) {
+        protected void onChangeValue(ilarkesto.core.time.Date oldValue, ilarkesto.core.time.Date newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -444,20 +444,20 @@ public abstract class GProject
 
     // --- end ---
 
-    private ilarkesto.gwt.client.Date end ;
+    private ilarkesto.core.time.Date end ;
 
-    public final ilarkesto.gwt.client.Date getEnd() {
+    public final ilarkesto.core.time.Date getEnd() {
         return this.end ;
     }
 
-    public final Project setEnd(ilarkesto.gwt.client.Date end) {
+    public final Project setEnd(ilarkesto.core.time.Date end) {
         if (isEnd(end)) return (Project)this;
         this.end = end ;
         propertyChanged("end", this.end);
         return (Project)this;
     }
 
-    public final boolean isEnd(ilarkesto.gwt.client.Date end) {
+    public final boolean isEnd(ilarkesto.core.time.Date end) {
         return equals(this.end, end);
     }
 
@@ -478,17 +478,17 @@ public abstract class GProject
         }
 
         @Override
-        public ilarkesto.gwt.client.Date getValue() {
+        public ilarkesto.core.time.Date getValue() {
             return getEnd();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.Date value) {
+        public void setValue(ilarkesto.core.time.Date value) {
             setEnd(value);
         }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.Date oldValue, ilarkesto.gwt.client.Date newValue) {
+        protected void onChangeValue(ilarkesto.core.time.Date oldValue, ilarkesto.core.time.Date newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -2022,20 +2022,20 @@ public abstract class GProject
 
     // --- lastOpenedDateAndTime ---
 
-    private ilarkesto.gwt.client.DateAndTime lastOpenedDateAndTime ;
+    private ilarkesto.core.time.DateAndTime lastOpenedDateAndTime ;
 
-    public final ilarkesto.gwt.client.DateAndTime getLastOpenedDateAndTime() {
+    public final ilarkesto.core.time.DateAndTime getLastOpenedDateAndTime() {
         return this.lastOpenedDateAndTime ;
     }
 
-    public final Project setLastOpenedDateAndTime(ilarkesto.gwt.client.DateAndTime lastOpenedDateAndTime) {
+    public final Project setLastOpenedDateAndTime(ilarkesto.core.time.DateAndTime lastOpenedDateAndTime) {
         if (isLastOpenedDateAndTime(lastOpenedDateAndTime)) return (Project)this;
         this.lastOpenedDateAndTime = lastOpenedDateAndTime ;
         propertyChanged("lastOpenedDateAndTime", this.lastOpenedDateAndTime);
         return (Project)this;
     }
 
-    public final boolean isLastOpenedDateAndTime(ilarkesto.gwt.client.DateAndTime lastOpenedDateAndTime) {
+    public final boolean isLastOpenedDateAndTime(ilarkesto.core.time.DateAndTime lastOpenedDateAndTime) {
         return equals(this.lastOpenedDateAndTime, lastOpenedDateAndTime);
     }
 
@@ -2056,17 +2056,17 @@ public abstract class GProject
         }
 
         @Override
-        public ilarkesto.gwt.client.DateAndTime getValue() {
+        public ilarkesto.core.time.DateAndTime getValue() {
             return getLastOpenedDateAndTime();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.DateAndTime value) {
+        public void setValue(ilarkesto.core.time.DateAndTime value) {
             setLastOpenedDateAndTime(value);
         }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.DateAndTime oldValue, ilarkesto.gwt.client.DateAndTime newValue) {
+        protected void onChangeValue(ilarkesto.core.time.DateAndTime oldValue, ilarkesto.core.time.DateAndTime newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -2148,9 +2148,9 @@ public abstract class GProject
         description  = (java.lang.String) props.get("description");
         longDescription  = (java.lang.String) props.get("longDescription");
         String beginAsString = (String) props.get("begin");
-        begin  =  beginAsString == null ? null : new ilarkesto.gwt.client.Date(beginAsString);
+        begin  =  beginAsString == null ? null : new ilarkesto.core.time.Date(beginAsString);
         String endAsString = (String) props.get("end");
-        end  =  endAsString == null ? null : new ilarkesto.gwt.client.Date(endAsString);
+        end  =  endAsString == null ? null : new ilarkesto.core.time.Date(endAsString);
         participantsIds = (Set<String>) props.get("participantsIds");
         adminsIds = (Set<String>) props.get("adminsIds");
         productOwnersIds = (Set<String>) props.get("productOwnersIds");
@@ -2182,7 +2182,7 @@ public abstract class GProject
         supportEmail  = (java.lang.String) props.get("supportEmail");
         issueReplyTemplate  = (java.lang.String) props.get("issueReplyTemplate");
         String lastOpenedDateAndTimeAsString = (String) props.get("lastOpenedDateAndTime");
-        lastOpenedDateAndTime  =  lastOpenedDateAndTimeAsString == null ? null : new ilarkesto.gwt.client.DateAndTime(lastOpenedDateAndTimeAsString);
+        lastOpenedDateAndTime  =  lastOpenedDateAndTimeAsString == null ? null : new ilarkesto.core.time.DateAndTime(lastOpenedDateAndTimeAsString);
         freeDays  = (Integer) props.get("freeDays");
         updateLocalModificationTime();
     }

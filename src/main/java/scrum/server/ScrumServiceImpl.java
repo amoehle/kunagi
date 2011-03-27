@@ -728,6 +728,7 @@ public class ScrumServiceImpl extends GScrumServiceImpl {
 		sendToClients(conversation, project.getSprints());
 		sendToClients(conversation, project.getRequirements());
 		sendToClients(conversation, project.getTasks());
+		sendToClients(conversation, oldSprint.getReleases());
 		sendToClients(conversation, project);
 	}
 

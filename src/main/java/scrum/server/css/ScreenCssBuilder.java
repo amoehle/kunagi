@@ -164,7 +164,7 @@ public class ScreenCssBuilder implements CssBuilder {
 		css.style(".AViewEditWidget-viewer-editable").background(cFieldBackground)
 				.border(1, "dotted", cNavigatorSelectedItemBackground).cursorPointer();
 		css.style(".ARichtextViewEditWidget-viewer .codeBlock").padding(5).margin(0, 10, 10, 10).border(1, "#EEE")
-				.background(Colors.lighten(cFieldBackground)).maxWidth(400).maxHeight(400).overflowAuto();
+				.background(Colors.lighten(cFieldBackground)).maxWidth(350).maxHeight(400).overflowAuto();
 		css.style(".ARichtextViewEditWidget-viewer div.toc").border(1, cPagePanelBorder).background("#EEE")
 				.floatRight().padding(10, 10, 3, 5).margin(10);
 		css.style(".codeBlock code, .codeBlock pre").margin(0, 0, 0, 0).padding(0, 0, 0, 0);
@@ -249,7 +249,7 @@ public class ScreenCssBuilder implements CssBuilder {
 				.background("#5A5 url(pokertable_bg.jpg)").padding(40);
 		css.style(".PlanningPokerWidget-table-branding").color(cPlanningPokerTableLines).fontFamily("Times New Roman")
 				.fontWeightBold().fontSize(30).textAlignCenter().marginBottom(30);
-		css.style(".PlanningPokerWidget-table .HyperlinkWidget, .PlanningPokerWidget-table a").color(
+		css.style(".PlanningPokerWidget-table .gwt-Hyperlink, .PlanningPokerWidget-table a").color(
 			cPlanningPokerTableLines);
 
 		int cardWidth = 40;
@@ -529,7 +529,7 @@ public class ScreenCssBuilder implements CssBuilder {
 				.background(cPagePanelHeaderBackground, "../page-header-bg.png").color(cPagePanelHeader);
 		css.style(".PagePanel-header .gwt-Button").fontSize(fontSizeSmall);
 		css.style(".PagePanel-header input").fontSize(fontSizeSmall);
-		css.style(".PagePanel-header .HyperlinkWidget").fontSize(fontSizeSmall);
+		css.style(".PagePanel-header .gwt-Hyperlink").fontSize(fontSizeSmall);
 		css.style(".PagePanel-section").margin(0, 10, 0, 10);
 		css.style(".PagePanel-spacer").height(10);
 	}

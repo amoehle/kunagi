@@ -1,13 +1,13 @@
 /*
  * Copyright 2011 Witoslaw Koczewsi <wi@koczewski.de>, Artjom Kochtchi
  * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+ * General Public License as published by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
- * for more details.
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+ * License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -16,10 +16,10 @@ package scrum.client.sprint;
 
 import ilarkesto.core.base.Utl;
 import ilarkesto.core.scope.Scope;
-import ilarkesto.gwt.client.Date;
+import ilarkesto.core.time.Date;
+import ilarkesto.core.time.TimePeriod;
 import ilarkesto.gwt.client.Gwt;
 import ilarkesto.gwt.client.HyperlinkWidget;
-import ilarkesto.gwt.client.TimePeriod;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +38,7 @@ import scrum.client.common.ShowEntityAction;
 import scrum.client.impediments.Impediment;
 import scrum.client.project.Project;
 import scrum.client.project.Requirement;
+import scrum.client.tasks.WhiteboardWidget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -301,7 +302,8 @@ public class Sprint extends GSprint implements ForumSupport, ReferenceSupport, L
 	@Override
 	public Widget createForumItemWidget() {
 		String label = isCurrent() ? "Sprint Backlog" : "Sprint";
-		return new HyperlinkWidget(new ShowEntityAction(this, label));
+		return new HyperlinkWidget(new ShowEntityAction(isCurrent() ? WhiteboardWidget.class
+				: SprintHistoryWidget.class, this, label));
 	}
 
 	@Override

@@ -271,20 +271,20 @@ public abstract class GSprint
 
     // --- begin ---
 
-    private ilarkesto.gwt.client.Date begin ;
+    private ilarkesto.core.time.Date begin ;
 
-    public final ilarkesto.gwt.client.Date getBegin() {
+    public final ilarkesto.core.time.Date getBegin() {
         return this.begin ;
     }
 
-    public final Sprint setBegin(ilarkesto.gwt.client.Date begin) {
+    public final Sprint setBegin(ilarkesto.core.time.Date begin) {
         if (isBegin(begin)) return (Sprint)this;
         this.begin = begin ;
         propertyChanged("begin", this.begin);
         return (Sprint)this;
     }
 
-    public final boolean isBegin(ilarkesto.gwt.client.Date begin) {
+    public final boolean isBegin(ilarkesto.core.time.Date begin) {
         return equals(this.begin, begin);
     }
 
@@ -305,12 +305,12 @@ public abstract class GSprint
         }
 
         @Override
-        public ilarkesto.gwt.client.Date getValue() {
+        public ilarkesto.core.time.Date getValue() {
             return getBegin();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.Date value) {
+        public void setValue(ilarkesto.core.time.Date value) {
             setBegin(value);
         }
 
@@ -320,7 +320,7 @@ public abstract class GSprint
         public String getTooltip() { return "The date the Team starts working on the Sprint."; }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.Date oldValue, ilarkesto.gwt.client.Date newValue) {
+        protected void onChangeValue(ilarkesto.core.time.Date oldValue, ilarkesto.core.time.Date newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -329,20 +329,20 @@ public abstract class GSprint
 
     // --- end ---
 
-    private ilarkesto.gwt.client.Date end ;
+    private ilarkesto.core.time.Date end ;
 
-    public final ilarkesto.gwt.client.Date getEnd() {
+    public final ilarkesto.core.time.Date getEnd() {
         return this.end ;
     }
 
-    public final Sprint setEnd(ilarkesto.gwt.client.Date end) {
+    public final Sprint setEnd(ilarkesto.core.time.Date end) {
         if (isEnd(end)) return (Sprint)this;
         this.end = end ;
         propertyChanged("end", this.end);
         return (Sprint)this;
     }
 
-    public final boolean isEnd(ilarkesto.gwt.client.Date end) {
+    public final boolean isEnd(ilarkesto.core.time.Date end) {
         return equals(this.end, end);
     }
 
@@ -363,12 +363,12 @@ public abstract class GSprint
         }
 
         @Override
-        public ilarkesto.gwt.client.Date getValue() {
+        public ilarkesto.core.time.Date getValue() {
             return getEnd();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.Date value) {
+        public void setValue(ilarkesto.core.time.Date value) {
             setEnd(value);
         }
 
@@ -378,7 +378,7 @@ public abstract class GSprint
         public String getTooltip() { return "The date by which the Team will finish working on this Sprint. A Sprint Review meeting should be scheduled to present results."; }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.Date oldValue, ilarkesto.gwt.client.Date newValue) {
+        protected void onChangeValue(ilarkesto.core.time.Date oldValue, ilarkesto.core.time.Date newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -925,9 +925,9 @@ public abstract class GSprint
         label  = (java.lang.String) props.get("label");
         goal  = (java.lang.String) props.get("goal");
         String beginAsString = (String) props.get("begin");
-        begin  =  beginAsString == null ? null : new ilarkesto.gwt.client.Date(beginAsString);
+        begin  =  beginAsString == null ? null : new ilarkesto.core.time.Date(beginAsString);
         String endAsString = (String) props.get("end");
-        end  =  endAsString == null ? null : new ilarkesto.gwt.client.Date(endAsString);
+        end  =  endAsString == null ? null : new ilarkesto.core.time.Date(endAsString);
         velocity  = (java.lang.Float) props.get("velocity");
         completedRequirementLabels  = (java.lang.String) props.get("completedRequirementLabels");
         completedRequirementsData  = (java.lang.String) props.get("completedRequirementsData");

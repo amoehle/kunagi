@@ -14,7 +14,7 @@
  */
 package scrum.client.release;
 
-import ilarkesto.gwt.client.Date;
+import ilarkesto.core.time.Date;
 import scrum.client.common.TooltipBuilder;
 
 public class UnreleaseReleaseAction extends GUnreleaseReleaseAction {

@@ -14,6 +14,7 @@
  */
 package scrum.server.release;
 
+import ilarkesto.base.time.Date;
 import ilarkesto.fp.Predicate;
 
 import java.util.Set;
@@ -62,4 +63,12 @@ public class ReleaseDao extends GReleaseDao {
 		}
 	}
 
+	public Release postRelease(Project project, Date releaseDate, String label) {
+		Release release = newEntityInstance();
+		release.setProject(project);
+		release.setReleaseDate(releaseDate);
+		release.setLabel(label);
+		saveEntity(release);
+		return release;
+	}
 }

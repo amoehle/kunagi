@@ -698,6 +698,7 @@ public class ScrumModelApplication extends AGeneratorApplication {
 					.setTooltip("Login name.");
 			userModel.addStringProperty("publicName").setSearchable(true)
 					.setTooltip("Name, which is displayed to the public on blog entries or emails.");
+			userModel.addStringProperty("fullName").setSearchable(true).setTooltip("Full name of the person.");
 			userModel.addProperty("admin", boolean.class);
 			userModel.addProperty("emailVerified", boolean.class);
 			userModel.addStringProperty("email").setSearchable(true).setUnique(true);

@@ -17,7 +17,7 @@ package scrum.client.project;
 import ilarkesto.core.base.Str;
 import ilarkesto.core.base.Utl;
 import ilarkesto.core.scope.Scope;
-import ilarkesto.gwt.client.Date;
+import ilarkesto.core.time.Date;
 import ilarkesto.gwt.client.Gwt;
 import ilarkesto.gwt.client.HyperlinkWidget;
 import ilarkesto.gwt.client.editor.AFieldModel;
@@ -42,6 +42,7 @@ import scrum.client.impediments.Impediment;
 import scrum.client.issues.Issue;
 import scrum.client.sprint.Sprint;
 import scrum.client.sprint.Task;
+import scrum.client.tasks.WhiteboardWidget;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -379,7 +380,8 @@ public class Requirement extends GRequirement implements ReferenceSupport, Label
 
 	@Override
 	public Widget createForumItemWidget() {
-		return new HyperlinkWidget(new ShowEntityAction(this, getLabel()));
+		return new HyperlinkWidget(new ShowEntityAction(isInCurrentSprint() ? WhiteboardWidget.class
+				: ProductBacklogWidget.class, this, getLabel()));
 	}
 
 	private void updateTasksOrder() {

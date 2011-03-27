@@ -311,20 +311,20 @@ public abstract class GRelease
 
     // --- releaseDate ---
 
-    private ilarkesto.gwt.client.Date releaseDate ;
+    private ilarkesto.core.time.Date releaseDate ;
 
-    public final ilarkesto.gwt.client.Date getReleaseDate() {
+    public final ilarkesto.core.time.Date getReleaseDate() {
         return this.releaseDate ;
     }
 
-    public final Release setReleaseDate(ilarkesto.gwt.client.Date releaseDate) {
+    public final Release setReleaseDate(ilarkesto.core.time.Date releaseDate) {
         if (isReleaseDate(releaseDate)) return (Release)this;
         this.releaseDate = releaseDate ;
         propertyChanged("releaseDate", this.releaseDate);
         return (Release)this;
     }
 
-    public final boolean isReleaseDate(ilarkesto.gwt.client.Date releaseDate) {
+    public final boolean isReleaseDate(ilarkesto.core.time.Date releaseDate) {
         return equals(this.releaseDate, releaseDate);
     }
 
@@ -345,19 +345,19 @@ public abstract class GRelease
         }
 
         @Override
-        public ilarkesto.gwt.client.Date getValue() {
+        public ilarkesto.core.time.Date getValue() {
             return getReleaseDate();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.Date value) {
+        public void setValue(ilarkesto.core.time.Date value) {
             setReleaseDate(value);
         }
         @Override
         public String getTooltip() { return "The intended or actual release date for planned and finished releases, respectively."; }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.Date oldValue, ilarkesto.gwt.client.Date newValue) {
+        protected void onChangeValue(ilarkesto.core.time.Date oldValue, ilarkesto.core.time.Date newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -646,7 +646,7 @@ public abstract class GRelease
         label  = (java.lang.String) props.get("label");
         note  = (java.lang.String) props.get("note");
         String releaseDateAsString = (String) props.get("releaseDate");
-        releaseDate  =  releaseDateAsString == null ? null : new ilarkesto.gwt.client.Date(releaseDateAsString);
+        releaseDate  =  releaseDateAsString == null ? null : new ilarkesto.core.time.Date(releaseDateAsString);
         released  = (Boolean) props.get("released");
         releaseNotes  = (java.lang.String) props.get("releaseNotes");
         scmTag  = (java.lang.String) props.get("scmTag");

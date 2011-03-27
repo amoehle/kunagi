@@ -1,13 +1,13 @@
 /*
  * Copyright 2011 Witoslaw Koczewsi <wi@koczewski.de>, Artjom Kochtchi
  * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+ * General Public License as published by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
- * for more details.
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+ * License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -18,6 +18,7 @@ import ilarkesto.core.base.Str;
 import ilarkesto.core.base.Utl;
 import ilarkesto.core.scope.Scope;
 import ilarkesto.gwt.client.editor.AFieldModel;
+import ilarkesto.gwt.client.editor.ATextEditorModel;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -46,6 +47,12 @@ public class User extends GUser implements LabelSupport, Comparable<User> {
 	@Override
 	public String getLabel() {
 		return getName();
+	}
+
+	public String getNameAndFullName() {
+		String fullName = getFullName();
+		if (Str.isBlank(fullName)) return getName();
+		return getName() + " (" + fullName + ")";
 	}
 
 	private String getNextNewUserName() {
@@ -88,6 +95,19 @@ public class User extends GUser implements LabelSupport, Comparable<User> {
 				if (!Str.isEmail(value)) throw new RuntimeException("Invalid email.");
 				super.setValue(value);
 			}
+		};
+	}
+
+	public ATextEditorModel getNameFullNameModel() {
+		return new ATextEditorModel() {
+
+			@Override
+			public String getValue() {
+				return getNameAndFullName();
+			}
+
+			@Override
+			public void setValue(String value) {}
 		};
 	}
 

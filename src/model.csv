@@ -92,6 +92,7 @@
 "e87ba882-97f1-48a8-9093-254530877c1e","2022a887-21ae-4fb1-ac20-5daf2700f34e","TextProperty","openId"
 "ca9742c0-f9e9-4407-ac46-ec35ba5c2546","2022a887-21ae-4fb1-ac20-5daf2700f34e","DateAndTimeProperty","registrationDateAndTime"
 "08fbdb57-e021-43cf-8205-9e2a1f2ad76b","2022a887-21ae-4fb1-ac20-5daf2700f34e","TextProperty","publicName"
+"2ebf197a-9cc6-4cdb-a488-c651b161eb0d","2022a887-21ae-4fb1-ac20-5daf2700f34e","TextProperty","fullName"
 "0d0f33de-863e-4de8-9888-db671d32e91c","a2e30272-5798-4ecd-b8b6-11fb7bb85a72","ServiceCall","ChangePassword"
 "de548dcf-3e98-479a-bdb0-03cc1e888731","0d0f33de-863e-4de8-9888-db671d32e91c","Parameter","newPassword"
 "6353271c-1d12-409f-a9d3-afd6afd2766a","de548dcf-3e98-479a-bdb0-03cc1e888731","Index","0"

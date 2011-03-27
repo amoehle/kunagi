@@ -130,20 +130,20 @@ public abstract class GFile
 
     // --- uploadTime ---
 
-    private ilarkesto.gwt.client.DateAndTime uploadTime ;
+    private ilarkesto.core.time.DateAndTime uploadTime ;
 
-    public final ilarkesto.gwt.client.DateAndTime getUploadTime() {
+    public final ilarkesto.core.time.DateAndTime getUploadTime() {
         return this.uploadTime ;
     }
 
-    public final File setUploadTime(ilarkesto.gwt.client.DateAndTime uploadTime) {
+    public final File setUploadTime(ilarkesto.core.time.DateAndTime uploadTime) {
         if (isUploadTime(uploadTime)) return (File)this;
         this.uploadTime = uploadTime ;
         propertyChanged("uploadTime", this.uploadTime);
         return (File)this;
     }
 
-    public final boolean isUploadTime(ilarkesto.gwt.client.DateAndTime uploadTime) {
+    public final boolean isUploadTime(ilarkesto.core.time.DateAndTime uploadTime) {
         return equals(this.uploadTime, uploadTime);
     }
 
@@ -164,12 +164,12 @@ public abstract class GFile
         }
 
         @Override
-        public ilarkesto.gwt.client.DateAndTime getValue() {
+        public ilarkesto.core.time.DateAndTime getValue() {
             return getUploadTime();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.DateAndTime value) {
+        public void setValue(ilarkesto.core.time.DateAndTime value) {
             setUploadTime(value);
         }
 
@@ -180,7 +180,7 @@ public abstract class GFile
         public boolean isEditable() { return false; }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.DateAndTime oldValue, ilarkesto.gwt.client.DateAndTime newValue) {
+        protected void onChangeValue(ilarkesto.core.time.DateAndTime oldValue, ilarkesto.core.time.DateAndTime newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -375,7 +375,7 @@ public abstract class GFile
         projectId = (String) props.get("projectId");
         filename  = (java.lang.String) props.get("filename");
         String uploadTimeAsString = (String) props.get("uploadTime");
-        uploadTime  =  uploadTimeAsString == null ? null : new ilarkesto.gwt.client.DateAndTime(uploadTimeAsString);
+        uploadTime  =  uploadTimeAsString == null ? null : new ilarkesto.core.time.DateAndTime(uploadTimeAsString);
         label  = (java.lang.String) props.get("label");
         number  = (Integer) props.get("number");
         note  = (java.lang.String) props.get("note");

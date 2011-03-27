@@ -23,8 +23,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="default.css" type="text/css">
     <link rel="alternate" type="application/rss+xml" title="Kunagi Blog" href="http://feeds.feedburner.com/kunagi">
-    <script type="text/javascript" src="js/prototype.js"></script>
-    <script type="text/javascript" src="js/kill-ie6.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 
 </head>
 
@@ -162,7 +161,7 @@ pageTracker._trackPageview();
 
 
 #macro( commentForm $servlet $entityId $textLabel $visibilityCheckboxLabel $submitLabel)
-    <form method="post" action="https://servisto.de/scrum/$servlet" accept-charset="UTF-8">
+    <form id="commentForm" method="post" accept-charset="UTF-8">
         #if ($id)
             <input name="projectId" type="hidden" value="$id">
         #else
@@ -200,12 +199,17 @@ pageTracker._trackPageview();
                 <td>
                     <input type="text" name="email" id="email" class="textinput">
                 </td>
-                <td align="right">
-                    <input type="submit" name="submit" class="submit" value="$submitLabel">
+                <td id="commentFormSubmitButtonContainer" align="right">
+                    
                 </td>
             </tr>
         </table>
     </form>
+    <script type="text/javascript">
+        var buttonCode = '<input id="commentFormSubmitButton" type="submit" name="submit" class="submit" value="$submitLabel">';
+        $('\#commentFormSubmitButtonContainer').append(buttonCode);
+		$('\#commentForm').attr('action', 'https://servisto.de/scrum/$servlet');
+    </script>
 #end
 
 

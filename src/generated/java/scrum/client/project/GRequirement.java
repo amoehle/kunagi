@@ -457,20 +457,20 @@ public abstract class GRequirement
 
     // --- rejectDate ---
 
-    private ilarkesto.gwt.client.Date rejectDate ;
+    private ilarkesto.core.time.Date rejectDate ;
 
-    public final ilarkesto.gwt.client.Date getRejectDate() {
+    public final ilarkesto.core.time.Date getRejectDate() {
         return this.rejectDate ;
     }
 
-    public final Requirement setRejectDate(ilarkesto.gwt.client.Date rejectDate) {
+    public final Requirement setRejectDate(ilarkesto.core.time.Date rejectDate) {
         if (isRejectDate(rejectDate)) return (Requirement)this;
         this.rejectDate = rejectDate ;
         propertyChanged("rejectDate", this.rejectDate);
         return (Requirement)this;
     }
 
-    public final boolean isRejectDate(ilarkesto.gwt.client.Date rejectDate) {
+    public final boolean isRejectDate(ilarkesto.core.time.Date rejectDate) {
         return equals(this.rejectDate, rejectDate);
     }
 
@@ -491,17 +491,17 @@ public abstract class GRequirement
         }
 
         @Override
-        public ilarkesto.gwt.client.Date getValue() {
+        public ilarkesto.core.time.Date getValue() {
             return getRejectDate();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.Date value) {
+        public void setValue(ilarkesto.core.time.Date value) {
             setRejectDate(value);
         }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.Date oldValue, ilarkesto.gwt.client.Date newValue) {
+        protected void onChangeValue(ilarkesto.core.time.Date oldValue, ilarkesto.core.time.Date newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -798,7 +798,7 @@ public abstract class GRequirement
         testDescription  = (java.lang.String) props.get("testDescription");
         estimatedWork  = (java.lang.Float) props.get("estimatedWork");
         String rejectDateAsString = (String) props.get("rejectDate");
-        rejectDate  =  rejectDateAsString == null ? null : new ilarkesto.gwt.client.Date(rejectDateAsString);
+        rejectDate  =  rejectDateAsString == null ? null : new ilarkesto.core.time.Date(rejectDateAsString);
         closed  = (Boolean) props.get("closed");
         dirty  = (Boolean) props.get("dirty");
         workEstimationVotingActive  = (Boolean) props.get("workEstimationVotingActive");

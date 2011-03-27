@@ -1,13 +1,13 @@
 /*
  * Copyright 2011 Witoslaw Koczewsi <wi@koczewski.de>, Artjom Kochtchi
  * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+ * General Public License as published by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
- * for more details.
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+ * License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -19,7 +19,6 @@ import ilarkesto.gwt.client.AGwtEntity;
 import ilarkesto.gwt.client.AWidget;
 import ilarkesto.gwt.client.EntityDoesNotExistException;
 import ilarkesto.gwt.client.SwitcherWidget;
-import ilarkesto.gwt.client.SwitchingNavigatorWidget;
 import scrum.client.admin.ProjectUserConfigWidget;
 import scrum.client.admin.PunishmentsWidget;
 import scrum.client.admin.SystemConfigWidget;
@@ -171,7 +170,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 			pages.addPage(new Page(userList, "User Management", administrationKey));
 		}
 
-		SwitchingNavigatorWidget navigator = getSidebar().getNavigator();
+		ScrumNavigatorWidget navigator = getSidebar().getNavigator();
 		navigator.addItem("Dashboard", dashboard);
 		addNavigatorGroup(navigator, sprintGroupKey, "Sprint");
 		addNavigatorGroup(navigator, productGroupKey, "Product");
@@ -180,7 +179,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		addNavigatorGroup(navigator, administrationKey, "Administration");
 	}
 
-	private void addNavigatorGroup(SwitchingNavigatorWidget navigator, String groupKey, String label) {
+	private void addNavigatorGroup(ScrumNavigatorWidget navigator, String groupKey, String label) {
 		navigator.addGroup(label, groupKey);
 		for (Page page : pages.getPagesByGroupKey(groupKey)) {
 			navigator.addItem(groupKey, page.getLabel(), page.getWidget());
@@ -206,7 +205,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 	}
 
 	public void showSearchResults() {
-		SwitchingNavigatorWidget navigator = getSidebar().getNavigator();
+		ScrumNavigatorWidget navigator = getSidebar().getNavigator();
 		SearchResultsWidget results = Scope.get().getComponent(Search.class).getResultsWidget();
 		if (!searchResultsAdded) {
 			navigator.addItem("Search Results", results);
@@ -418,7 +417,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		return Scope.get().getComponent(Ui.class).getWorkspace().getWorkarea();
 	}
 
-	public void showWhiteboard(Task task) {
+	private void showWhiteboard(Task task) {
 		select(whiteboard);
 		whiteboard.selectTask(task);
 	}
@@ -489,6 +488,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 
 	private void select(AWidget widget) {
 		getSidebar().getNavigator().select(widget);
+		getWorkarea().show(widget);
 		Scope.get().getComponent(Ui.class).unlock();
 	}
 

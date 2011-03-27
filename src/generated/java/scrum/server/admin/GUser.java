@@ -38,6 +38,7 @@ public abstract class GUser
         super.storeProperties(properties);
         properties.put("name", this.name);
         properties.put("publicName", this.publicName);
+        properties.put("fullName", this.fullName);
         properties.put("admin", this.admin);
         properties.put("emailVerified", this.emailVerified);
         properties.put("email", this.email);
@@ -82,6 +83,7 @@ public abstract class GUser
         if (super.matchesKey(key)) return true;
         if (matchesKey(getName(), key)) return true;
         if (matchesKey(getPublicName(), key)) return true;
+        if (matchesKey(getFullName(), key)) return true;
         if (matchesKey(getEmail(), key)) return true;
         return false;
     }
@@ -157,6 +159,42 @@ public abstract class GUser
 
     protected final void updatePublicName(Object value) {
         setPublicName((java.lang.String)value);
+    }
+
+    // -----------------------------------------------------------
+    // - fullName
+    // -----------------------------------------------------------
+
+    private java.lang.String fullName;
+
+    public final java.lang.String getFullName() {
+        return fullName;
+    }
+
+    public final void setFullName(java.lang.String fullName) {
+        fullName = prepareFullName(fullName);
+        if (isFullName(fullName)) return;
+        this.fullName = fullName;
+        updateLastModified();
+        fireModified("fullName="+fullName);
+    }
+
+    protected java.lang.String prepareFullName(java.lang.String fullName) {
+        fullName = Str.removeUnreadableChars(fullName);
+        return fullName;
+    }
+
+    public final boolean isFullNameSet() {
+        return this.fullName != null;
+    }
+
+    public final boolean isFullName(java.lang.String fullName) {
+        if (this.fullName == null && fullName == null) return true;
+        return this.fullName != null && this.fullName.equals(fullName);
+    }
+
+    protected final void updateFullName(Object value) {
+        setFullName((java.lang.String)value);
     }
 
     // -----------------------------------------------------------
@@ -977,6 +1015,7 @@ public abstract class GUser
             Object value = entry.getValue();
             if (property.equals("name")) updateName(value);
             if (property.equals("publicName")) updatePublicName(value);
+            if (property.equals("fullName")) updateFullName(value);
             if (property.equals("admin")) updateAdmin(value);
             if (property.equals("emailVerified")) updateEmailVerified(value);
             if (property.equals("email")) updateEmail(value);

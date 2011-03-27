@@ -17,12 +17,12 @@ package scrum.client.project;
 import ilarkesto.core.base.Utl;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.scope.Scope;
+import ilarkesto.core.time.Date;
+import ilarkesto.core.time.DateAndTime;
+import ilarkesto.core.time.Time;
 import ilarkesto.gwt.client.AGwtEntity;
-import ilarkesto.gwt.client.Date;
-import ilarkesto.gwt.client.DateAndTime;
 import ilarkesto.gwt.client.Gwt;
 import ilarkesto.gwt.client.HyperlinkWidget;
-import ilarkesto.gwt.client.Time;
 import ilarkesto.gwt.client.editor.AEditorModel;
 import ilarkesto.gwt.client.editor.AFieldModel;
 
@@ -45,6 +45,7 @@ import scrum.client.collaboration.Subject;
 import scrum.client.collaboration.Wikipage;
 import scrum.client.common.ShowEntityAction;
 import scrum.client.common.WeekdaySelector;
+import scrum.client.dashboard.DashboardWidget;
 import scrum.client.files.File;
 import scrum.client.impediments.Impediment;
 import scrum.client.issues.Issue;
@@ -668,7 +669,7 @@ public class Project extends GProject implements ForumSupport {
 
 	@Override
 	public Widget createForumItemWidget() {
-		return new HyperlinkWidget(new ShowEntityAction(this, "Project Dashboard"));
+		return new HyperlinkWidget(new ShowEntityAction(DashboardWidget.class, this, "Project Dashboard"));
 	}
 
 	@Override

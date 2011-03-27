@@ -1,13 +1,13 @@
 /*
  * Copyright 2011 Witoslaw Koczewsi <wi@koczewski.de>, Artjom Kochtchi
  * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+ * General Public License as published by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
- * for more details.
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+ * License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -51,7 +51,7 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 	public void onProjectChanged() {
 		String projectId = historyToken.getProjectId();
 		if (projectId == null) {
-			showProjectSelector();
+			showUserMode(historyToken.getPage());
 		} else {
 			showProject(projectId, historyToken.getPage(), historyToken.getEntityId());
 		}
@@ -138,13 +138,13 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 		// }
 	}
 
-	private void showProjectSelector() {
+	private void showUserMode(String page) {
 		if (currentMode == Mode.PROJECT) {
 			ScrumScopeManager.destroyProjectScope();
 		}
 
 		log.info("Activating USER mode");
-		Scope.get().getComponent(UsersWorkspaceWidgets.class).activate();
+		Scope.get().getComponent(UsersWorkspaceWidgets.class).activate(page);
 		currentMode = Mode.USER;
 	}
 
@@ -168,8 +168,11 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 	}
 
 	public static String getPageHref(String page) {
+		return '#' + getPageHistoryToken(page);
+	}
+
+	public static String getPageHistoryToken(String page) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("#");
 		Project project = Scope.get().getComponent(Project.class);
 		if (project != null) sb.append("project=").append(project.getId()).append("|");
 		sb.append("page=").append(page);
@@ -180,27 +183,35 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 		return getPageHref(Page.getPageName(pageClass));
 	}
 
+	public static String getEntityHistoryToken(AGwtEntity entity) {
+		String id = entity.getId();
+		return getEntityHistoryToken(id);
+	}
+
 	public static String getEntityHref(AGwtEntity entity) {
-		// String id = null;
-		// if (entity instanceof ReferenceSupport) {
-		// id = ((ReferenceSupport) entity).getReference();
-		// if (id != null && id.length() == 4 && id.endsWith("0")) id = null;
-		// }
-		// if (id == null) id = entity.getId();
 		String id = entity.getId();
 		return getEntityHref(id);
 	}
 
 	public static String getEntityHref(String entityId) {
+		return '#' + getEntityHistoryToken(entityId);
+	}
+
+	public static String getEntityHistoryToken(String entityId) {
+		return getEntityHistoryToken(null, entityId);
+	}
+
+	public static String getEntityHistoryToken(String page, String entityId) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("#");
 
 		Project project = Scope.get().getComponent(Project.class);
 		if (project != null) sb.append("project=").append(project.getId()).append("|");
 
 		Navigator navigator = Scope.get().getComponent(Navigator.class);
-		if (navigator != null && navigator.historyToken.getPage() != null)
-			sb.append("page=").append(navigator.historyToken.getPage()).append("|");
+		if (page == null && navigator != null) {
+			page = navigator.historyToken.getPage();
+		}
+		if (page != null) sb.append("page=").append(page).append("|");
 
 		sb.append("entity=").append(entityId);
 		return sb.toString();

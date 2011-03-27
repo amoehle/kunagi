@@ -14,7 +14,8 @@
  */
 package scrum.client.project;
 
-import ilarkesto.gwt.client.Date;
+import ilarkesto.core.time.Date;
+import ilarkesto.core.time.TimePeriod;
 import scrum.client.collaboration.EmoticonsWidget;
 import scrum.client.common.ABlockWidget;
 import scrum.client.common.AScrumAction;
@@ -30,6 +31,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class RequirementBlock extends ABlockWidget<Requirement> implements TrashSupport {
+
+	public RequirementBlock() {}
 
 	private SimplePanel statusIcon;
 	private SprintSwitchIndicatorWidget sprintBorderIndicator;
@@ -85,10 +88,15 @@ public class RequirementBlock extends ABlockWidget<Requirement> implements Trash
 		if (previous != null && sprintBorder) {
 			if (sprintBorderIndicator == null) {
 				sprintBorderIndicator = new SprintSwitchIndicatorWidget();
-				Sprint sprint = getCurrentProject().getCurrentSprint();
-				int sprints = previous.getEstimationBar().getEndSprintOffset() + 2;
-				sprintBorderIndicator.updateLabel(sprints,
-					sprint.getLength().multiplyBy(sprints).subtract(sprint.getBegin().getPeriodTo(Date.today()).abs()));
+				Sprint sprint = getCurrentProject().getNextSprint();
+				int sprints = previous.getEstimationBar().getEndSprintOffset();
+				TimePeriod sprintLength = sprint.getLength();
+				int sprintLengthInDays = sprintLength == null ? 14 : sprintLength.toDays();
+				Date begin = sprint.getBegin();
+				if (begin.isPast()) begin = new Date();
+				int totalLength = sprintLengthInDays * sprints;
+				Date date = begin.addDays(totalLength);
+				sprintBorderIndicator.updateLabel(sprints, date);
 				getPreHeaderPanel().add(sprintBorderIndicator);
 				requirement.updateLocalModificationTime();
 			}

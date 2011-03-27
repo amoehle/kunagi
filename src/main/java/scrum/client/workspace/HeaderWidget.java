@@ -18,7 +18,6 @@ import ilarkesto.core.scope.Scope;
 import ilarkesto.gwt.client.DropdownMenuButtonWidget;
 import ilarkesto.gwt.client.Gwt;
 import ilarkesto.gwt.client.HyperlinkWidget;
-import ilarkesto.gwt.client.SwitchingNavigatorWidget.SwitchAction;
 import ilarkesto.gwt.client.TableBuilder;
 import ilarkesto.gwt.client.undo.UndoButtonWidget;
 
@@ -133,7 +132,8 @@ public class HeaderWidget extends AScrumWidget {
 		ProjectWorkspaceWidgets widgets = Scope.get().getComponent(ProjectWorkspaceWidgets.class);
 		if (!ScrumScopeManager.isProjectScope()) return new Label(createCurrentUserText());
 
-		SwitchAction action = widgets.getSidebar().getNavigator().createSwitchAction(widgets.getProjectUserConfig());
+		ScrumNavigatorWidget.SwitchAction action = widgets.getSidebar().getNavigator()
+				.createSwitchAction(widgets.getProjectUserConfig());
 		action.setLabel(createCurrentUserText());
 		return new HyperlinkWidget(action);
 	}

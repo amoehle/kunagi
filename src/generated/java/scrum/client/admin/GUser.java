@@ -158,6 +158,61 @@ public abstract class GUser
 
     }
 
+    // --- fullName ---
+
+    private java.lang.String fullName ;
+
+    public final java.lang.String getFullName() {
+        return this.fullName ;
+    }
+
+    public final User setFullName(java.lang.String fullName) {
+        if (isFullName(fullName)) return (User)this;
+        this.fullName = fullName ;
+        propertyChanged("fullName", this.fullName);
+        return (User)this;
+    }
+
+    public final boolean isFullName(java.lang.String fullName) {
+        return equals(this.fullName, fullName);
+    }
+
+    private transient FullNameModel fullNameModel;
+
+    public FullNameModel getFullNameModel() {
+        if (fullNameModel == null) fullNameModel = createFullNameModel();
+        return fullNameModel;
+    }
+
+    protected FullNameModel createFullNameModel() { return new FullNameModel(); }
+
+    protected class FullNameModel extends ilarkesto.gwt.client.editor.ATextEditorModel {
+
+        @Override
+        public String getId() {
+            return "User_fullName";
+        }
+
+        @Override
+        public java.lang.String getValue() {
+            return getFullName();
+        }
+
+        @Override
+        public void setValue(java.lang.String value) {
+            setFullName(value);
+        }
+        @Override
+        public String getTooltip() { return "Full name of the person."; }
+
+        @Override
+        protected void onChangeValue(java.lang.String oldValue, java.lang.String newValue) {
+            super.onChangeValue(oldValue, newValue);
+            addUndo(this, oldValue);
+        }
+
+    }
+
     // --- admin ---
 
     private boolean admin ;
@@ -398,20 +453,20 @@ public abstract class GUser
 
     // --- lastLoginDateAndTime ---
 
-    private ilarkesto.gwt.client.DateAndTime lastLoginDateAndTime ;
+    private ilarkesto.core.time.DateAndTime lastLoginDateAndTime ;
 
-    public final ilarkesto.gwt.client.DateAndTime getLastLoginDateAndTime() {
+    public final ilarkesto.core.time.DateAndTime getLastLoginDateAndTime() {
         return this.lastLoginDateAndTime ;
     }
 
-    public final User setLastLoginDateAndTime(ilarkesto.gwt.client.DateAndTime lastLoginDateAndTime) {
+    public final User setLastLoginDateAndTime(ilarkesto.core.time.DateAndTime lastLoginDateAndTime) {
         if (isLastLoginDateAndTime(lastLoginDateAndTime)) return (User)this;
         this.lastLoginDateAndTime = lastLoginDateAndTime ;
         propertyChanged("lastLoginDateAndTime", this.lastLoginDateAndTime);
         return (User)this;
     }
 
-    public final boolean isLastLoginDateAndTime(ilarkesto.gwt.client.DateAndTime lastLoginDateAndTime) {
+    public final boolean isLastLoginDateAndTime(ilarkesto.core.time.DateAndTime lastLoginDateAndTime) {
         return equals(this.lastLoginDateAndTime, lastLoginDateAndTime);
     }
 
@@ -432,17 +487,17 @@ public abstract class GUser
         }
 
         @Override
-        public ilarkesto.gwt.client.DateAndTime getValue() {
+        public ilarkesto.core.time.DateAndTime getValue() {
             return getLastLoginDateAndTime();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.DateAndTime value) {
+        public void setValue(ilarkesto.core.time.DateAndTime value) {
             setLastLoginDateAndTime(value);
         }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.DateAndTime oldValue, ilarkesto.gwt.client.DateAndTime newValue) {
+        protected void onChangeValue(ilarkesto.core.time.DateAndTime oldValue, ilarkesto.core.time.DateAndTime newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -451,20 +506,20 @@ public abstract class GUser
 
     // --- registrationDateAndTime ---
 
-    private ilarkesto.gwt.client.DateAndTime registrationDateAndTime ;
+    private ilarkesto.core.time.DateAndTime registrationDateAndTime ;
 
-    public final ilarkesto.gwt.client.DateAndTime getRegistrationDateAndTime() {
+    public final ilarkesto.core.time.DateAndTime getRegistrationDateAndTime() {
         return this.registrationDateAndTime ;
     }
 
-    public final User setRegistrationDateAndTime(ilarkesto.gwt.client.DateAndTime registrationDateAndTime) {
+    public final User setRegistrationDateAndTime(ilarkesto.core.time.DateAndTime registrationDateAndTime) {
         if (isRegistrationDateAndTime(registrationDateAndTime)) return (User)this;
         this.registrationDateAndTime = registrationDateAndTime ;
         propertyChanged("registrationDateAndTime", this.registrationDateAndTime);
         return (User)this;
     }
 
-    public final boolean isRegistrationDateAndTime(ilarkesto.gwt.client.DateAndTime registrationDateAndTime) {
+    public final boolean isRegistrationDateAndTime(ilarkesto.core.time.DateAndTime registrationDateAndTime) {
         return equals(this.registrationDateAndTime, registrationDateAndTime);
     }
 
@@ -485,17 +540,17 @@ public abstract class GUser
         }
 
         @Override
-        public ilarkesto.gwt.client.DateAndTime getValue() {
+        public ilarkesto.core.time.DateAndTime getValue() {
             return getRegistrationDateAndTime();
         }
 
         @Override
-        public void setValue(ilarkesto.gwt.client.DateAndTime value) {
+        public void setValue(ilarkesto.core.time.DateAndTime value) {
             setRegistrationDateAndTime(value);
         }
 
         @Override
-        protected void onChangeValue(ilarkesto.gwt.client.DateAndTime oldValue, ilarkesto.gwt.client.DateAndTime newValue) {
+        protected void onChangeValue(ilarkesto.core.time.DateAndTime oldValue, ilarkesto.core.time.DateAndTime newValue) {
             super.onChangeValue(oldValue, newValue);
             addUndo(this, oldValue);
         }
@@ -1463,15 +1518,16 @@ public abstract class GUser
     public void updateProperties(Map props) {
         name  = (java.lang.String) props.get("name");
         publicName  = (java.lang.String) props.get("publicName");
+        fullName  = (java.lang.String) props.get("fullName");
         admin  = (Boolean) props.get("admin");
         emailVerified  = (Boolean) props.get("emailVerified");
         email  = (java.lang.String) props.get("email");
         currentProjectId = (String) props.get("currentProjectId");
         color  = (java.lang.String) props.get("color");
         String lastLoginDateAndTimeAsString = (String) props.get("lastLoginDateAndTime");
-        lastLoginDateAndTime  =  lastLoginDateAndTimeAsString == null ? null : new ilarkesto.gwt.client.DateAndTime(lastLoginDateAndTimeAsString);
+        lastLoginDateAndTime  =  lastLoginDateAndTimeAsString == null ? null : new ilarkesto.core.time.DateAndTime(lastLoginDateAndTimeAsString);
         String registrationDateAndTimeAsString = (String) props.get("registrationDateAndTime");
-        registrationDateAndTime  =  registrationDateAndTimeAsString == null ? null : new ilarkesto.gwt.client.DateAndTime(registrationDateAndTimeAsString);
+        registrationDateAndTime  =  registrationDateAndTimeAsString == null ? null : new ilarkesto.core.time.DateAndTime(registrationDateAndTimeAsString);
         disabled  = (Boolean) props.get("disabled");
         hideUserGuideBlog  = (Boolean) props.get("hideUserGuideBlog");
         hideUserGuideCalendar  = (Boolean) props.get("hideUserGuideCalendar");
@@ -1498,6 +1554,7 @@ public abstract class GUser
         super.storeProperties(properties);
         properties.put("name", this.name);
         properties.put("publicName", this.publicName);
+        properties.put("fullName", this.fullName);
         properties.put("admin", this.admin);
         properties.put("emailVerified", this.emailVerified);
         properties.put("email", this.email);
@@ -1530,6 +1587,7 @@ public abstract class GUser
         if (super.matchesKey(key)) return true;
         if (matchesKey(getName(), key)) return true;
         if (matchesKey(getPublicName(), key)) return true;
+        if (matchesKey(getFullName(), key)) return true;
         if (matchesKey(getEmail(), key)) return true;
         return false;
     }

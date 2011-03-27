@@ -337,7 +337,7 @@ public class HomepageUpdater {
 		context.put("goal", wikiToHtml(sprint.getGoal()));
 		context.put("begin", sprint.getBegin().toString(Date.FORMAT_LONGMONTH_DAY_YEAR));
 		context.put("end", sprint.getEnd().toString(Date.FORMAT_LONGMONTH_DAY_YEAR));
-		Release release = sprint.getRelease();
+		Release release = sprint.getNextRelease();
 		if (release != null) context.put("release", release.getLabel());
 		List<Requirement> requirements = new ArrayList<Requirement>(sprint.getRequirements());
 		Collections.sort(requirements, project.getRequirementsOrderComparator());

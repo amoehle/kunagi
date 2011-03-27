@@ -1,13 +1,13 @@
 /*
  * Copyright 2011 Witoslaw Koczewsi <wi@koczewski.de>, Artjom Kochtchi
  * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+ * General Public License as published by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
- * for more details.
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+ * License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -45,18 +45,23 @@ public class Sprint extends GSprint implements Numbered {
 
 	// --- ---
 
-	public Release getRelease() {
-		Set<Release> releases = getReleases();
+	public Release getNextRelease() {
+		List<Release> releases = new ArrayList<Release>(getReleases());
+		Collections.sort(releases, Release.DATE_REVERSE_COMPARATOR);
 		return releases.isEmpty() ? null : Utl.getElement(releases, 0);
 	}
 
 	public void close() {
 		float velocity = 0;
+		StringBuilder releaseNotes = new StringBuilder();
+		releaseNotes.append("'''Stories from ").append(getReferenceAndLabel()).append("'''\n\n");
 		Collection<Requirement> completedRequirements = new ArrayList<Requirement>();
 		Collection<Requirement> incompletedRequirements = new ArrayList<Requirement>();
 		List<Requirement> requirements = new ArrayList<Requirement>(getRequirements());
 		Collections.sort(requirements, getProject().getRequirementsOrderComparator());
 		for (Requirement requirement : requirements) {
+			releaseNotes.append("* " + (requirement.isClosed() ? "" : "(UNFINISHED) "))
+					.append(requirement.getReferenceAndLabel()).append("\n");
 			List<Task> tasks = new ArrayList<Task>(requirement.getTasks());
 			Collections.sort(tasks, requirement.getTasksOrderComparator());
 			if (requirement.isClosed()) {
@@ -86,6 +91,15 @@ public class Sprint extends GSprint implements Numbered {
 				}
 			}
 			requirement.setSprint(null);
+		}
+		for (Release release : getReleases()) {
+			StringBuilder sb = new StringBuilder();
+			if (release.isReleaseNotesSet()) {
+				sb.append(release.getReleaseNotes());
+				sb.append("\n\n");
+			}
+			sb.append(releaseNotes.toString());
+			release.setReleaseNotes(sb.toString());
 		}
 		setVelocity(velocity);
 		Project project = getProject();
@@ -197,7 +211,7 @@ public class Sprint extends GSprint implements Numbered {
 		getDaySnapshot(begin).updateWithCurrentSprint();
 		begin = begin.nextDay();
 		while (begin.isBefore(end)) {
-			if (!begin.isWeekend()) {
+			if (!begin.getWeekday().isWeekend()) {
 				int toBurn = Utl.randomInt(0, defaultWorkPerDay + (defaultWorkPerDay * 2));
 				int totalRemaining = getRemainingWork();
 				for (Task task : getTasks()) {

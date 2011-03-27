@@ -45,6 +45,8 @@ public abstract class GUserDao
         namesCache = null;
         usersByPublicNameCache.clear();
         publicNamesCache = null;
+        usersByFullNameCache.clear();
+        fullNamesCache = null;
         usersByAdminCache.clear();
         usersByEmailVerifiedCache.clear();
         emailsCache = null;
@@ -161,6 +163,46 @@ public abstract class GUserDao
 
         public boolean test(User e) {
             return e.isPublicName(value);
+        }
+
+    }
+
+    // -----------------------------------------------------------
+    // - fullName
+    // -----------------------------------------------------------
+
+    private final Cache<java.lang.String,Set<User>> usersByFullNameCache = new Cache<java.lang.String,Set<User>>(
+            new Cache.Factory<java.lang.String,Set<User>>() {
+                public Set<User> create(java.lang.String fullName) {
+                    return getEntities(new IsFullName(fullName));
+                }
+            });
+
+    public final Set<User> getUsersByFullName(java.lang.String fullName) {
+        return usersByFullNameCache.get(fullName);
+    }
+    private Set<java.lang.String> fullNamesCache;
+
+    public final Set<java.lang.String> getFullNames() {
+        if (fullNamesCache == null) {
+            fullNamesCache = new HashSet<java.lang.String>();
+            for (User e : getEntities()) {
+                if (e.isFullNameSet()) fullNamesCache.add(e.getFullName());
+            }
+        }
+        return fullNamesCache;
+    }
+
+    private static class IsFullName implements Predicate<User> {
+
+        private java.lang.String value;
+
+        public IsFullName(java.lang.String value) {
+            this.value = value;
+        }
+
+        public boolean test(User e) {
+            return e.isFullName(value);
         }
 
     }
