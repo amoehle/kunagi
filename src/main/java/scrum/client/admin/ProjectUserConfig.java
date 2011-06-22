@@ -129,5 +129,10 @@ public class ProjectUserConfig extends GProjectUserConfig {
 			return true;
 		}
 
+		@Override
+		public boolean isThemesCreatable() {
+			return false;
+		}
+
 	}
 }

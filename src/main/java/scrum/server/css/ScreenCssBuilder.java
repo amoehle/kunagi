@@ -45,14 +45,17 @@ public class ScreenCssBuilder implements CssBuilder {
 	public static String cLink = "#2956B2";
 	public static String cErrorBackground = "#FEE";
 	public static String cError = "darkred";
-	public static String cHeaderText = "white";
+	public static String cHeaderText = "#FFFFFF";
 
 	public static String cNavigatorSeparator = "#D9DEE6";
 	public static String cNavigatorLink = "#465B79";
 	public static String cNavigatorSelectedItemBackground = "#CCD5E6";
 	public static String cNavigatorHoverItemBackground = "#E9EEF6";
 
+	public static String cFieldBackground = "#FFFFFF";
+
 	public static String cBlockHeaderBackground = cNavigatorHoverItemBackground;
+	public static String cBlockBackground = "#FAFDFF";
 	public static String cBlockSelectionBorder = cHeaderBackground;
 	public static String cBlockHeaderHoverBackground = cBackground;
 	public static String cBlockHeaderDragHandleBackground = "#FBFBFF";
@@ -64,13 +67,11 @@ public class ScreenCssBuilder implements CssBuilder {
 	public static String cPagePanelHeader = "#FF6637";
 	public static String cPagePanelBorder = cNavigatorSeparator;
 
-	public static String cChatBackground = "white";
+	public static String cChatBackground = "#FFFFFF";
 	public static String cChatBorder = cPagePanelBorder;
 
 	public static String cTrashBackground = cNavigatorHoverItemBackground;
 	public static String cTrashBorder = cPagePanelBorder;
-
-	public static String cFieldBackground = "#FAFDFF";
 
 	public static String cWaitBackground = cFieldBackground;
 	public static String cWait = cLink;
@@ -153,6 +154,8 @@ public class ScreenCssBuilder implements CssBuilder {
 
 		css.style(".highlighted .ABlockWidget-title").border(1, cError);
 
+		css.style(".LockInfoWidget-icon").marginRight(10);
+
 		css.style(".WaitWidget").background(cWaitBackground).margin(200, 0, 200, 0).borderTop(1, cPagePanelBorder)
 				.borderBottom(1, cPagePanelBorder).fontSize(fontSize + 2);
 		css.style(".LoginWidget-errorMessage").background(cErrorBackground).color(cError).border(1, cError)
@@ -197,6 +200,7 @@ public class ScreenCssBuilder implements CssBuilder {
 		css.style("ul.toc");// .displayInline().floatRight();
 
 		css.style("a.reference, a.reference:visited").fontFamilyMonospace().color(cLink);
+		css.style("a.reference-unavailable").color("darkgray");
 
 		css.style("input.InputMandatory").border(1, "black");
 
@@ -222,13 +226,20 @@ public class ScreenCssBuilder implements CssBuilder {
 		css.style(".loginPage .panel img").marginBottom(-20);
 		css.style(".loginPage .message").color("gold").fontWeightBold().marginBottom(10).fontSize(fontSizeTitle);
 		String labelColor = Colors.lighten(Colors.lighten(Colors.lighten(cHeaderBackground)));
-		css.style(".loginPage .inputButton").background(Colors.darken(cHeaderBackground)).marginRight(10)
-				.borderRadius(5).color(labelColor).fontWeightBold().padding(1, 10).cursorPointer();
-		css.style(".loginPage input:hover.inputButton").color(Colors.lighten(labelColor));
+
+		css.style(".loginPage .inputButton, .loginPage a.openid .button").background(Colors.darken(cHeaderBackground))
+				.border(1, cPagePanelBorder).borderRadius(5).color(labelColor).fontWeightBold().padding(1, 10)
+				.cursorPointer().textShadow(-1, -1, 0, "#444");
+		css.style(".loginPage .inputButton").marginRight(10);
+		css.style(".loginPage a.openid .button").margin(0, 5, 5, 0).floatLeft();
+		css.style(".loginPage input:hover.inputButton, .loginPage a.openid:hover .button").color(
+			Colors.lighten(labelColor));
+
 		css.style(".loginPage .inputCheckbox").marginLeft(0);
 		css.style(".loginPage .panel label").color(labelColor).marginRight(5);
 		css.style(".loginPage .panel .optionalLabel label").color(Colors.lighten(cHeaderBackground));
-		css.style(".loginPage h2").colorWhite().margin(30, 0, 20, 0).fontSize(fontSizeTitle + 4);
+		css.style(".loginPage h2").color("#fff").margin(30, 0, 20, 0).fontSize(fontSizeTitle + 4)
+				.textShadow(1, 1, 0, "#222");
 		css.style(".loginPage input").marginBottom(5);
 		css.style("#username, #email, #password").width(150).marginRight(10);
 		css.style("#openid").width(309).marginRight(10);
@@ -236,10 +247,6 @@ public class ScreenCssBuilder implements CssBuilder {
 		css.style(".loginPage .configMessage").colorWhite();
 		css.style(".loginPage .kunagiLink").textAlignRight().fontSize(fontSizeSmall).color(labelColor);
 		css.style(".loginPage .kunagiLink a").color(Colors.lighten(labelColor));
-		css.style(".loginPage a.openid .button").border(1, cPagePanelBorder)
-				.background(Colors.darken(cHeaderBackground)).margin(0, 5, 5, 0).borderRadius(5).color(labelColor)
-				.fontWeightBold().padding(1, 10).cursorPointer().floatLeft();
-		css.style(".loginPage a.openid:hover .button").color(Colors.lighten(labelColor));
 	}
 
 	private void planningPoker(CssRenderer css) {
@@ -484,7 +491,7 @@ public class ScreenCssBuilder implements CssBuilder {
 
 	private void blockList(CssRenderer css) {
 		css.style(".ABlockWidget-extended").border(2, cBlockSelectionBorder).padding(3).backgroundWhite();
-		css.style(".ABlockWidget-body").padding(10).border(1, cBlockHeaderBackground);
+		css.style(".ABlockWidget-body").padding(10).border(1, cBlockHeaderBackground).background(cBlockBackground);
 
 		// css.style(".BlockListWidget").border(1, "yellow").minHeight(50, "px");
 		css.style(".BlockHeaderWidget").background(cBlockHeaderBackground, "../blockheader-bg.png", "repeat-x");

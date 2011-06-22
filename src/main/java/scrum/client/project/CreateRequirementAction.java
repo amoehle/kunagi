@@ -58,7 +58,7 @@ public class CreateRequirementAction extends GCreateRequirementAction {
 	@Override
 	protected void onExecute() {
 		Requirement requirement = getCurrentProject().createNewRequirement(relative, before, false);
-		Scope.get().getComponent(ProjectWorkspaceWidgets.class).showProductBacklog(requirement);
+		Scope.get().getComponent(ProjectWorkspaceWidgets.class).showEntity(requirement);
 	}
 
 	public void setRelative(Requirement nextRequirement) {

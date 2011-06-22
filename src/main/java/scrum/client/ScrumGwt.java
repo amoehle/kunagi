@@ -23,6 +23,7 @@ import ilarkesto.gwt.client.TableBuilder;
 
 import java.util.Collection;
 
+import scrum.client.admin.User;
 import scrum.client.collaboration.CommentsWidget;
 import scrum.client.collaboration.EmoticonSelectorWidget;
 import scrum.client.common.AScrumGwtEntity;
@@ -36,6 +37,13 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ScrumGwt extends Gwt {
+
+	public static boolean isCurrentUserProductOwner() {
+		Scope scope = Scope.get();
+		Project project = scope.getComponent(Project.class);
+		User user = scope.getComponent(User.class);
+		return project.isProductOwner(user);
+	}
 
 	public static String getEstimationAsString(Float estimation, String suffix) {
 		String s = getEstimationAsString(estimation);

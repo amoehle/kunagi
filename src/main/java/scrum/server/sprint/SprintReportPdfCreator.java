@@ -1,13 +1,13 @@
 /*
  * Copyright 2011 Witoslaw Koczewsi <wi@koczewski.de>, Artjom Kochtchi
  * 
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public
- * License as published by the Free Software Foundation, either version 3 of the License, or (at your option)
- * any later version.
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero
+ * General Public License as published by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the
- * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License
- * for more details.
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public
+ * License for more details.
  * 
  * You should have received a copy of the GNU General Public License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -25,12 +25,13 @@ import ilarkesto.pdf.FontStyle;
 import java.awt.Color;
 import java.util.List;
 
+import scrum.client.sprint.SprintHistoryHelper;
+import scrum.client.sprint.SprintHistoryHelper.StoryInfo;
+import scrum.client.sprint.SprintHistoryHelper.TaskInfo;
 import scrum.server.common.APdfCreator;
 import scrum.server.common.BurndownChart;
 import scrum.server.common.ScrumPdfContext;
 import scrum.server.common.WikiToPdfConverter;
-import scrum.server.sprint.SprintReportHelper.StoryInfo;
-import scrum.server.sprint.SprintReportHelper.TaskInfo;
 
 public class SprintReportPdfCreator extends APdfCreator {
 
@@ -66,11 +67,6 @@ public class SprintReportPdfCreator extends APdfCreator {
 			WikiToPdfConverter.buildPdf(pdf, sprint.getGoal(), new ScrumPdfContext());
 		}
 
-		if (sprint.isCompletedRequirementLabelsSet()) {
-			sectionHeader(pdf, "Completed stories");
-			WikiToPdfConverter.buildPdf(pdf, sprint.getCompletedRequirementLabels(), new ScrumPdfContext());
-		}
-
 		requirements(pdf, "Completed stories", sprint.getCompletedRequirementsData());
 		requirements(pdf, "Rejected stories", sprint.getIncompletedRequirementsData());
 
@@ -87,7 +83,7 @@ public class SprintReportPdfCreator extends APdfCreator {
 	}
 
 	private int getBurnedWork(String requirementsData) {
-		List<StoryInfo> requirements = SprintReportHelper.parseRequirementsAndTasks(requirementsData);
+		List<StoryInfo> requirements = SprintHistoryHelper.parseRequirementsAndTasks(requirementsData);
 		if (requirements.isEmpty()) return 0;
 		int sum = 0;
 		for (StoryInfo req : requirements) {
@@ -97,7 +93,7 @@ public class SprintReportPdfCreator extends APdfCreator {
 	}
 
 	private void requirements(APdfContainerElement pdf, String title, String requirementsData) {
-		List<StoryInfo> requirements = SprintReportHelper.parseRequirementsAndTasks(requirementsData);
+		List<StoryInfo> requirements = SprintHistoryHelper.parseRequirementsAndTasks(requirementsData);
 		if (requirements.isEmpty()) return;
 		sectionHeader(pdf, title);
 		for (StoryInfo req : requirements) {

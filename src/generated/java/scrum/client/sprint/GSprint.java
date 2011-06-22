@@ -438,62 +438,6 @@ public abstract class GSprint
 
     }
 
-    // --- completedRequirementLabels ---
-
-    private java.lang.String completedRequirementLabels ;
-
-    public final java.lang.String getCompletedRequirementLabels() {
-        return this.completedRequirementLabels ;
-    }
-
-    public final Sprint setCompletedRequirementLabels(java.lang.String completedRequirementLabels) {
-        if (isCompletedRequirementLabels(completedRequirementLabels)) return (Sprint)this;
-        this.completedRequirementLabels = completedRequirementLabels ;
-        propertyChanged("completedRequirementLabels", this.completedRequirementLabels);
-        return (Sprint)this;
-    }
-
-    public final boolean isCompletedRequirementLabels(java.lang.String completedRequirementLabels) {
-        return equals(this.completedRequirementLabels, completedRequirementLabels);
-    }
-
-    private transient CompletedRequirementLabelsModel completedRequirementLabelsModel;
-
-    public CompletedRequirementLabelsModel getCompletedRequirementLabelsModel() {
-        if (completedRequirementLabelsModel == null) completedRequirementLabelsModel = createCompletedRequirementLabelsModel();
-        return completedRequirementLabelsModel;
-    }
-
-    protected CompletedRequirementLabelsModel createCompletedRequirementLabelsModel() { return new CompletedRequirementLabelsModel(); }
-
-    protected class CompletedRequirementLabelsModel extends ilarkesto.gwt.client.editor.ATextEditorModel {
-
-        @Override
-        public String getId() {
-            return "Sprint_completedRequirementLabels";
-        }
-
-        @Override
-        public java.lang.String getValue() {
-            return getCompletedRequirementLabels();
-        }
-
-        @Override
-        public void setValue(java.lang.String value) {
-            setCompletedRequirementLabels(value);
-        }
-
-        @Override
-        public boolean isRichtext() { return true; }
-
-        @Override
-        protected void onChangeValue(java.lang.String oldValue, java.lang.String newValue) {
-            super.onChangeValue(oldValue, newValue);
-            addUndo(this, oldValue);
-        }
-
-    }
-
     // --- completedRequirementsData ---
 
     private java.lang.String completedRequirementsData ;
@@ -929,7 +873,6 @@ public abstract class GSprint
         String endAsString = (String) props.get("end");
         end  =  endAsString == null ? null : new ilarkesto.core.time.Date(endAsString);
         velocity  = (java.lang.Float) props.get("velocity");
-        completedRequirementLabels  = (java.lang.String) props.get("completedRequirementLabels");
         completedRequirementsData  = (java.lang.String) props.get("completedRequirementsData");
         incompletedRequirementsData  = (java.lang.String) props.get("incompletedRequirementsData");
         planningNote  = (java.lang.String) props.get("planningNote");
@@ -952,7 +895,6 @@ public abstract class GSprint
         properties.put("begin", this.begin == null ? null : this.begin.toString());
         properties.put("end", this.end == null ? null : this.end.toString());
         properties.put("velocity", this.velocity);
-        properties.put("completedRequirementLabels", this.completedRequirementLabels);
         properties.put("completedRequirementsData", this.completedRequirementsData);
         properties.put("incompletedRequirementsData", this.incompletedRequirementsData);
         properties.put("planningNote", this.planningNote);

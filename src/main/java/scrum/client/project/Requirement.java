@@ -88,6 +88,11 @@ public class Requirement extends GRequirement implements ReferenceSupport, Label
 		return getLabelModel().isEditable();
 	}
 
+	@Override
+	public boolean isThemesCreatable() {
+		return ScrumGwt.isCurrentUserProductOwner();
+	}
+
 	public List<Requirement> getRelatedRequirements() {
 		List<Requirement> ret = getProject().getRequirementsByThemes(getThemes());
 		ret.remove(this);

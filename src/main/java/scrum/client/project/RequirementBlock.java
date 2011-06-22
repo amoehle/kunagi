@@ -88,18 +88,18 @@ public class RequirementBlock extends ABlockWidget<Requirement> implements Trash
 		if (previous != null && sprintBorder) {
 			if (sprintBorderIndicator == null) {
 				sprintBorderIndicator = new SprintSwitchIndicatorWidget();
-				Sprint sprint = getCurrentProject().getNextSprint();
-				int sprints = previous.getEstimationBar().getEndSprintOffset();
-				TimePeriod sprintLength = sprint.getLength();
-				int sprintLengthInDays = sprintLength == null ? 14 : sprintLength.toDays();
-				Date begin = sprint.getBegin();
-				if (begin.isPast()) begin = new Date();
-				int totalLength = sprintLengthInDays * sprints;
-				Date date = begin.addDays(totalLength);
-				sprintBorderIndicator.updateLabel(sprints, date);
 				getPreHeaderPanel().add(sprintBorderIndicator);
-				requirement.updateLocalModificationTime();
 			}
+			Sprint sprint = getCurrentProject().getNextSprint();
+			int sprints = previous.getEstimationBar().getEndSprintOffset();
+			TimePeriod sprintLength = sprint.getLength();
+			int sprintLengthInDays = sprintLength == null ? 14 : sprintLength.toDays();
+			Date begin = sprint.getBegin();
+			if (begin == null || begin.isPast()) begin = new Date();
+			int totalLength = sprintLengthInDays * sprints;
+			Date date = begin.addDays(totalLength);
+			sprintBorderIndicator.updateLabel(sprints + 1, date);
+			requirement.updateLocalModificationTime();
 		} else {
 			if (sprintBorderIndicator != null) {
 				getPreHeaderPanel().remove(sprintBorderIndicator);

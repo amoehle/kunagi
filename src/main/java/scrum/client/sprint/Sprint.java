@@ -20,6 +20,7 @@ import ilarkesto.core.time.Date;
 import ilarkesto.core.time.TimePeriod;
 import ilarkesto.gwt.client.Gwt;
 import ilarkesto.gwt.client.HyperlinkWidget;
+import ilarkesto.gwt.client.editor.ATextEditorModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,8 @@ import scrum.client.common.ShowEntityAction;
 import scrum.client.impediments.Impediment;
 import scrum.client.project.Project;
 import scrum.client.project.Requirement;
+import scrum.client.sprint.SprintHistoryHelper.StoryInfo;
+import scrum.client.sprint.SprintHistoryHelper.TaskInfo;
 import scrum.client.tasks.WhiteboardWidget;
 
 import com.google.gwt.core.client.GWT;
@@ -422,4 +425,35 @@ public class Sprint extends GSprint implements ForumSupport, ReferenceSupport, L
 
 	}
 
+	private transient ATextEditorModel completedRequirementLabelsModel;
+
+	public ATextEditorModel getCompletedRequirementLabelsModel() {
+		if (completedRequirementLabelsModel == null) completedRequirementLabelsModel = new ATextEditorModel() {
+
+			@Override
+			public String getValue() {
+				StringBuilder sb = new StringBuilder();
+				List<StoryInfo> stories = SprintHistoryHelper.parseRequirementsAndTasks(getCompletedRequirementsData());
+				for (StoryInfo story : stories) {
+					sb.append("\n* ").append(story.getReference()).append(" ").append(story.getLabel());
+					sb.append(" ''").append(story.getEstimatedWorkAsString()).append(", ")
+							.append(story.getBurnedWorkAsString()).append("''");
+					for (TaskInfo task : story.getTasks()) {
+						sb.append("\n  * ").append(task.getReference()).append(" ").append(task.getLabel());
+						sb.append(" ''").append(task.getBurnedWork()).append(" hrs.''");
+					}
+				}
+				return sb.toString();
+			}
+
+			@Override
+			public void setValue(String value) {}
+
+			@Override
+			public boolean isEditable() {
+				return false;
+			}
+		};
+		return completedRequirementLabelsModel;
+	}
 }

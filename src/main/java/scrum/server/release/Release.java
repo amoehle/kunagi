@@ -63,6 +63,7 @@ public class Release extends GRelease implements Numbered, ReferenceSupport {
 		setReleased(true);
 		webApplication.postProjectEvent(project, user.getName() + " released " + getReferenceAndLabel(), this);
 		webApplication.sendToConversationsByProject(project, this);
+		project.updateHomepage();
 		log.debug("Release published:", this);
 	}
 

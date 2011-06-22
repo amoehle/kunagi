@@ -42,9 +42,10 @@ print 'Releasing Kunagi ' + releaseLabel
 
 
 # configuration
+os.chdir('/home/scrum/')
+workDir = os.path.abspath('kunagi-release-workdir')
 artifactsDestinationHomeDir = '/var/www/kunagi.org/releases'
 githubUser = 'git://github.com/Kunagi'
-workDir = 'kunagi-release-workdir'
 buildDir = workDir + '/kunagi/build'
 packageDir = buildDir + '/package-content/kunagi'
 packageWar = buildDir + '/kunagi.war'
@@ -53,7 +54,7 @@ packageTar = buildDir + '/kunagi-' + releaseLabel + '.tar.gz'
 
 
 # cleanup previous release
-print '  Clean'
+print '  Clean work direcotry: ' + workDir
 if os.path.exists(workDir):
     shutil.rmtree(workDir)
 
@@ -96,11 +97,25 @@ execute('tar -czf ../kunagi-' + releaseLabel + '.tar.gz kunagi-' + releaseLabel,
 execute('zip -r9 ../kunagi-' + releaseLabel + '.zip kunagi-' + releaseLabel, packageDirParentDir)
 
 
+# debianize
+print '  Create debian package'
+debianDir = buildDir + '/debian'
+debianDocDir = debianDir + '/usr/share/doc/kunagi'
+packageDeb = buildDir + '/kunagi_' + releaseLabel + '.deb'
+shutil.copytree(workDir + '/kunagi/src/debian', buildDir + '/debian')
+os.makedirs(debianDir + '/var/lib/tomcat6/webapps')
+shutil.copyfile(packageWar, debianDir + '/var/lib/tomcat6/webapps/kunagi.war')
+os.makedirs(debianDocDir)
+shutil.copyfile(workDir + '/kunagi/README', debianDocDir + '/README')
+execute('fakeroot dpkg-deb --build debian', buildDir)
+shutil.move(buildDir + '/debian.deb', packageDeb)
+
+
 # check files and directories
 print '  Check artifacts'
 artifactsDestinationDir = artifactsDestinationHomeDir + '/' + releaseLabel
-if os.path.exists(artifactsDestinationDir):
-    fail('Release directory already exists: ' + artifactsDestinationDir)
+#if os.path.exists(artifactsDestinationDir):
+#    fail('Release directory already exists: ' + artifactsDestinationDir)
 if not os.path.exists(packageWar):
     fail('Missing war package: ' + packageWar)
 if not os.path.exists(packageZip):
@@ -118,6 +133,7 @@ execute('ant releaseHomepage', workDir + '/kunagi')
 print '  Upload artifacts to SourceForge'
 sourceForgePath = 'koczewski,kunagi@frs.sourceforge.net:/home/frs/project/k/ku/kunagi/' + releaseLabel
 execute('scp ' + packageWar + ' ' + sourceForgePath + '/kunagi.war')
+execute('scp ' + packageDeb + ' ' + sourceForgePath + '/kunagi_' + releaseLabel + '.deb')
 execute('scp ' + packageTar + ' ' + sourceForgePath + '/kunagi-' + releaseLabel + '.tar.gz')
 execute('scp ' + packageZip + ' ' + sourceForgePath + '/kunagi-' + releaseLabel + '.zip')
 
@@ -126,8 +142,15 @@ execute('scp ' + packageZip + ' ' + sourceForgePath + '/kunagi-' + releaseLabel 
 print '  Copy artifacts to ' + artifactsDestinationDir
 os.mkdir(artifactsDestinationDir)
 shutil.copyfile(packageWar, artifactsDestinationDir + '/kunagi.war')
+shutil.copyfile(packageDeb, artifactsDestinationDir + '/kunagi_' + releaseLabel + '.deb')
 shutil.copyfile(packageTar, artifactsDestinationDir + '/kunagi-' + releaseLabel + '.tar.gz')
 shutil.copyfile(packageZip, artifactsDestinationDir + '/kunagi-' + releaseLabel + '.zip')
+
+
+# deploy
+print '  Deploy demo'
+shutil.copyfile(packageWar, '/home/kunagi-demo/tomcat/webapps/kunagi-demo.war')
+#shutil.copyfile(packageWar, '/home/scrum/tomcat/webapps/scrum.war')
 
 
 print 'Kunagi ' + releaseLabel + ' released'

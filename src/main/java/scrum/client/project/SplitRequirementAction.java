@@ -31,7 +31,7 @@ public class SplitRequirementAction extends GSplitRequirementAction {
 	@Override
 	protected void onExecute() {
 		Requirement newRequirement = requirement.getProject().createNewRequirement(requirement, true, true);
-		Scope.get().getComponent(ProjectWorkspaceWidgets.class).showProductBacklog(newRequirement);
+		Scope.get().getComponent(ProjectWorkspaceWidgets.class).showEntity(newRequirement);
 		addUndo(new Undo(newRequirement));
 	}
 

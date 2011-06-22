@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import scrum.server.ScrumWebApplication;
 import scrum.server.WebSession;
 import scrum.server.common.AHttpServlet;
+import scrum.server.common.SpamChecker;
 import scrum.server.journal.ProjectEventDao;
 import scrum.server.project.Project;
 import scrum.server.project.ProjectDao;
@@ -44,7 +45,7 @@ public class IssueServlet extends AHttpServlet {
 	private transient ProjectEventDao projectEventDao;
 	private transient TransactionService transactionService;
 
-	private ScrumWebApplication app;
+	private transient ScrumWebApplication app;
 
 	@Override
 	protected void onRequest(HttpServletRequest req, HttpServletResponse resp, WebSession session) throws IOException {
@@ -69,6 +70,7 @@ public class IssueServlet extends AHttpServlet {
 
 		String message;
 		try {
+			SpamChecker.check(req);
 			message = submitIssue(projectId, text, name, email, publish);
 		} catch (Throwable ex) {
 			log.error("Submitting issue failed.", "\n" + Servlet.toString(req, "  "), ex);

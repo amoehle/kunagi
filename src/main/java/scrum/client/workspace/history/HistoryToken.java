@@ -102,6 +102,10 @@ public class HistoryToken {
 		History.newItem(projectId == null ? "projectSelector" : "project=" + projectId + "|page=" + START_PAGE, true);
 	}
 
+	public void updatePage(String page) {
+		History.newItem("project=" + projectId + "|page=" + page, true);
+	}
+
 	public String getProjectId() {
 		return projectId;
 	}

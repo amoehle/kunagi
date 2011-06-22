@@ -61,7 +61,7 @@ import scrum.server.project.Project;
 
 public class ScrumWebApplication extends GScrumWebApplication {
 
-	private static final int DATA_VERSION = 23;
+	private static final int DATA_VERSION = 25;
 
 	private static final Log log = Log.get(ScrumWebApplication.class);
 
@@ -220,11 +220,11 @@ public class ScrumWebApplication extends GScrumWebApplication {
 		tm.scheduleWithFixedDelay(autowire(new HomepageUpdaterTask()), Tm.HOUR);
 
 		if (getConfig().isDisableUsersWithUnverifiedEmails())
-			tm.scheduleWithFixedDelay(autowire(new DisableUsersWithUnverifiedEmailsTask()), Tm.HOUR);
+			tm.scheduleWithFixedDelay(autowire(new DisableUsersWithUnverifiedEmailsTask()), Tm.SECOND * 10, Tm.HOUR);
 		if (getConfig().isDisableInactiveUsers())
-			tm.scheduleWithFixedDelay(autowire(new DisableInactiveUsersTask()), Tm.HOUR);
+			tm.scheduleWithFixedDelay(autowire(new DisableInactiveUsersTask()), Tm.SECOND * 20, Tm.HOUR);
 		if (getConfig().isDeleteOldProjects())
-			tm.scheduleWithFixedDelay(autowire(new DeleteOldProjectsTask()), Tm.SECOND, Tm.HOUR * 25);
+			tm.scheduleWithFixedDelay(autowire(new DeleteOldProjectsTask()), Tm.SECOND * 30, Tm.HOUR * 25);
 		if (getConfig().isDeleteDisabledUsers())
 			tm.scheduleWithFixedDelay(autowire(new DeleteDisabledUsersTask()), Tm.MINUTE * 3, Tm.HOUR * 26);
 	}

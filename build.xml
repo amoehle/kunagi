@@ -138,7 +138,7 @@
 	</target>
 
 	<target name="installScripts">
-		<copy file="etc/kunagi-release.py" tofile="/home/cad/bin/kunagi-release" preservelastmodified="true" />
+		<copy file="etc/kunagi-release.py" tofile="/home/scrum/bin/kunagi-release" preservelastmodified="true" />
 	</target>
 	
     <target name="continousIntegrationBuild" depends="clean,test,package,publishPackages,releaseHomepage,installScripts,deployToLatest" />

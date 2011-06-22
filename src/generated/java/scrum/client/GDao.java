@@ -2623,14 +2623,6 @@ public abstract class GDao
         return ret;
     }
 
-    public final List<scrum.client.sprint.Sprint> getSprintsByCompletedRequirementLabels(java.lang.String completedRequirementLabels) {
-        List<scrum.client.sprint.Sprint> ret = new ArrayList<scrum.client.sprint.Sprint>();
-        for (scrum.client.sprint.Sprint entity : sprints.values()) {
-            if (entity.isCompletedRequirementLabels(completedRequirementLabels)) ret.add(entity);
-        }
-        return ret;
-    }
-
     public final List<scrum.client.sprint.Sprint> getSprintsByCompletedRequirementsData(java.lang.String completedRequirementsData) {
         List<scrum.client.sprint.Sprint> ret = new ArrayList<scrum.client.sprint.Sprint>();
         for (scrum.client.sprint.Sprint entity : sprints.values()) {
@@ -2999,6 +2991,14 @@ public abstract class GDao
         List<scrum.client.admin.SystemConfig> ret = new ArrayList<scrum.client.admin.SystemConfig>();
         for (scrum.client.admin.SystemConfig entity : systemConfigs.values()) {
             if (entity.isOpenIdDisabled(openIdDisabled)) ret.add(entity);
+        }
+        return ret;
+    }
+
+    public final List<scrum.client.admin.SystemConfig> getSystemConfigsByOpenIdDomains(java.lang.String openIdDomains) {
+        List<scrum.client.admin.SystemConfig> ret = new ArrayList<scrum.client.admin.SystemConfig>();
+        for (scrum.client.admin.SystemConfig entity : systemConfigs.values()) {
+            if (entity.isOpenIdDomains(openIdDomains)) ret.add(entity);
         }
         return ret;
     }

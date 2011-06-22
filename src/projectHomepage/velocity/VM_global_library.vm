@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="default.css" type="text/css">
     <link rel="alternate" type="application/rss+xml" title="Kunagi Blog" href="http://feeds.feedburner.com/kunagi">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 
 </head>
 
@@ -169,6 +170,7 @@ pageTracker._trackPageview();
         #end
         #if ($entityId) <input name="entityId" type="hidden" value="$entityId"> #end
         <input name="returnUrl" type="hidden" value="http://kunagi.org/message.html#{message}">
+        <input id="spamPreventionCodeField" name="spamPreventionCode" type="hidden" value="spam">
         <table cellspacing="0" cellpadding="0" border="0" width="100%">
             <tr>
                 <td colspan="5">
@@ -206,9 +208,11 @@ pageTracker._trackPageview();
         </table>
     </form>
     <script type="text/javascript">
-        var buttonCode = '<input id="commentFormSubmitButton" type="submit" name="submit" class="submit" value="$submitLabel">';
-        $('\#commentFormSubmitButtonContainer').append(buttonCode);
-		$('\#commentForm').attr('action', 'https://servisto.de/scrum/$servlet');
+        var buttonHtml = '<input id="commentFormSubmitButton" type="submit" name="submit" class="submit" value="$submitLabel">';
+        $(document.getElementById('commentFormSubmitButtonContainer')).append(buttonHtml);
+		$(document.getElementById('commentForm')).attr('action', 'https://servisto.de/scrum/$servlet');
+		var spamPreventionCode = 'no-spam';
+		$(document.getElementById('spamPreventionCodeField')).attr('value', spamPreventionCode);
     </script>
 #end
 
@@ -269,7 +273,7 @@ pageTracker._trackPageview();
     <a href="http://github.com/Kunagi" target="_blank">GitHub</a>,
     <a href="http://sourceforge.net/projects/kunagi/" target="_blank">SourceForge</a>,
     <a href="https://code.google.com/p/kunagi/" target="_blank">Google Code</a>,
-    <h href="https://www.ohloh.net/p/kunagi" target="_blank">Ohloh</a>,
+    <a href="https://www.ohloh.net/p/kunagi" target="_blank">Ohloh</a>,
     <a href="http://userstories.com/products/65-kunagi" target="_blank">UserStories.com</a>,
     <a href="http://alternativeto.net/desktop/kunagi/" target="_blank">AlternativeTo</a>,
     <a href="http://flattr.com/thing/2486/Kunagi" target="_blank">Flattr</a>,
@@ -283,6 +287,7 @@ pageTracker._trackPageview();
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                 #if($url) <td style="padding: 0 0 0 0;"> #facebookButton($url) </td> #end
+                <td style="padding: 0 15px 0 0;"> #plusoneButton($url) </td>
                 <td style="padding: 0 15px 0 0;"> #tweetButton() </td>
                 <td style="padding: 0 15px 0 0;"> #buzzButton() </td>
                 <td style="padding: 0 15px 0 0;"> #flattrButton() </td>
@@ -290,6 +295,10 @@ pageTracker._trackPageview();
             </tr>
         </table>
     </div>
+#end
+
+#macro( plusoneButton $url )
+    <g:plusone size="medium" href="${url}"></g:plusone>
 #end
 
 #macro( facebookButton $url )

@@ -43,7 +43,7 @@ import scrum.server.common.AHttpServlet;
 
 public class LoginServlet extends AHttpServlet {
 
-	private static final int LOGIN_TOKEN_COOKIE_MAXAGE = 259200; // 3days
+	private static final int LOGIN_TOKEN_COOKIE_MAXAGE = 518400; // 6 days
 	private static final long serialVersionUID = 1;
 
 	private static Log log = Log.get(LoginServlet.class);
@@ -256,6 +256,14 @@ public class LoginServlet extends AHttpServlet {
 				renderLoginPage(resp, null, null, historyToken, "Creating account failed. OpenID '" + openId
 						+ "' is already used.", false, false);
 				log.warn("Registration failed. OpenID already exists:", openId);
+				return;
+			}
+
+			if (!webApplication.getSystemConfig().isOpenIdDomainAllowed(openId)) {
+				renderLoginPage(resp, null, null, historyToken, "Registration failed. OpenID domains are limited to: "
+						+ webApplication.getSystemConfig().getOpenIdDomains(), false, false);
+				log.warn("Registration failed. OpenID domains are limited to:", webApplication.getSystemConfig()
+						.getOpenIdDomains());
 				return;
 			}
 

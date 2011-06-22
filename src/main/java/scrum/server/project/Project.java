@@ -216,7 +216,7 @@ public class Project extends GProject {
 			String link = baseUrl + "#project=" + getId();
 			if (event.isSubjectSet()) link += "|entity=" + event.getSubjectId();
 			item.setLink(link);
-			item.setGuid(event.getId());
+			item.setGuid(link);
 			item.setPubDate(event.getDateAndTime());
 		}
 		rss.sortItems();

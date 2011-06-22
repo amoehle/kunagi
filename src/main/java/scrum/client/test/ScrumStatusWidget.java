@@ -28,6 +28,7 @@ import scrum.client.ScrumGwtApplication;
 import scrum.client.collaboration.Comment;
 import scrum.client.common.AScrumAction;
 import scrum.client.common.AScrumWidget;
+import scrum.client.core.DeleteEntityServiceCall;
 import scrum.client.core.ServiceCaller;
 import scrum.client.issues.Issue;
 import scrum.client.project.Requirement;
@@ -75,6 +76,8 @@ public class ScrumStatusWidget extends AScrumWidget {
 		TableBuilder tb = new TableBuilder();
 		tb.setWidth(null);
 		tb.setCellPadding(5);
+		tb.addRow(new ButtonWidget(new ThrowExceptionAction()));
+		tb.addRow(new ButtonWidget(new ThrowServerExceptionAction()));
 		tb.addRow(new ButtonWidget(new ShowWidgetsTesterAction()));
 		tb.addRow(new ButtonWidget(new GenerateRequirementsAction()));
 		tb.addRow(new ButtonWidget(new GenerateIssuesAction()));
@@ -103,6 +106,32 @@ public class ScrumStatusWidget extends AScrumWidget {
 		tb.addFieldRow("entityIdBase", new Label(dao.getEntityIdBase()));
 		tb.addFieldRow("entityIdCounter", new Label(String.valueOf(dao.getEntityIdCounter())));
 		return tb.createTable();
+	}
+
+	class ThrowExceptionAction extends AScrumAction {
+
+		@Override
+		public String getLabel() {
+			return "Throw Client Exception";
+		}
+
+		@Override
+		protected void onExecute() {
+			throw new RuntimeException("User initiated exception.<br>:-D");
+		}
+	}
+
+	class ThrowServerExceptionAction extends AScrumAction {
+
+		@Override
+		public String getLabel() {
+			return "Throw Server Exception";
+		}
+
+		@Override
+		protected void onExecute() {
+			new DeleteEntityServiceCall("bad-entity-id").execute();
+		}
 	}
 
 	class ShowWidgetsTesterAction extends AScrumAction {

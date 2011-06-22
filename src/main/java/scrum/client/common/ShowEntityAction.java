@@ -30,7 +30,7 @@ public class ShowEntityAction extends AScrumAction {
 		this(Str.removeSuffix(Str.getSimpleName(page), "Widget"), entity, label);
 	}
 
-	public ShowEntityAction(String page, AScrumGwtEntity entity, String label) {
+	private ShowEntityAction(String page, AScrumGwtEntity entity, String label) {
 		super();
 		this.page = page;
 		this.entity = entity;

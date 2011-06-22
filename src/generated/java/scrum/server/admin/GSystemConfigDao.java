@@ -73,6 +73,8 @@ public abstract class GSystemConfigDao
         systemConfigsByDefaultUserPasswordCache.clear();
         defaultUserPasswordsCache = null;
         systemConfigsByOpenIdDisabledCache.clear();
+        systemConfigsByOpenIdDomainsCache.clear();
+        openIdDomainssCache = null;
         systemConfigsByVersionCheckEnabledCache.clear();
         systemConfigsByLdapEnabledCache.clear();
         systemConfigsByLdapUrlCache.clear();
@@ -766,6 +768,46 @@ public abstract class GSystemConfigDao
 
         public boolean test(SystemConfig e) {
             return value == e.isOpenIdDisabled();
+        }
+
+    }
+
+    // -----------------------------------------------------------
+    // - openIdDomains
+    // -----------------------------------------------------------
+
+    private final Cache<java.lang.String,Set<SystemConfig>> systemConfigsByOpenIdDomainsCache = new Cache<java.lang.String,Set<SystemConfig>>(
+            new Cache.Factory<java.lang.String,Set<SystemConfig>>() {
+                public Set<SystemConfig> create(java.lang.String openIdDomains) {
+                    return getEntities(new IsOpenIdDomains(openIdDomains));
+                }
+            });
+
+    public final Set<SystemConfig> getSystemConfigsByOpenIdDomains(java.lang.String openIdDomains) {
+        return systemConfigsByOpenIdDomainsCache.get(openIdDomains);
+    }
+    private Set<java.lang.String> openIdDomainssCache;
+
+    public final Set<java.lang.String> getOpenIdDomainss() {
+        if (openIdDomainssCache == null) {
+            openIdDomainssCache = new HashSet<java.lang.String>();
+            for (SystemConfig e : getEntities()) {
+                if (e.isOpenIdDomainsSet()) openIdDomainssCache.add(e.getOpenIdDomains());
+            }
+        }
+        return openIdDomainssCache;
+    }
+
+    private static class IsOpenIdDomains implements Predicate<SystemConfig> {
+
+        private java.lang.String value;
+
+        public IsOpenIdDomains(java.lang.String value) {
+            this.value = value;
+        }
+
+        public boolean test(SystemConfig e) {
+            return e.isOpenIdDomains(value);
         }
 
     }

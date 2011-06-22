@@ -19,6 +19,7 @@ import ilarkesto.gwt.client.AGwtEntity;
 import ilarkesto.gwt.client.AWidget;
 import ilarkesto.gwt.client.EntityDoesNotExistException;
 import ilarkesto.gwt.client.SwitcherWidget;
+import scrum.client.ScrumGwt;
 import scrum.client.admin.ProjectUserConfigWidget;
 import scrum.client.admin.PunishmentsWidget;
 import scrum.client.admin.SystemConfigWidget;
@@ -204,16 +205,6 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		return projectUserConfig;
 	}
 
-	public void showSearchResults() {
-		ScrumNavigatorWidget navigator = getSidebar().getNavigator();
-		SearchResultsWidget results = Scope.get().getComponent(Search.class).getResultsWidget();
-		if (!searchResultsAdded) {
-			navigator.addItem("Search Results", results);
-			searchResultsAdded = true;
-		}
-		navigator.select(results);
-	}
-
 	public void showEntityByReference(final String reference) {
 		log.debug("Showing entity by reference:", reference);
 
@@ -284,9 +275,6 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 
 	public void showEntity(AGwtEntity entity) {
 		log.debug("Showing entity:", entity);
-		if (getWorkarea().isShowing(forum)) {
-
-		}
 		if (entity instanceof Task) {
 			showTask((Task) entity);
 		} else if (entity instanceof Requirement) {
@@ -324,10 +312,68 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		}
 	}
 
+	public String getPageForEntity(String entityId) {
+		try {
+			if (ScrumGwt.isEntityReferenceOrWikiPage(entityId))
+				return getPageForEntity(dao.getEntityByReference(entityId));
+			return getPageForEntity(dao.getEntityByReference(entityId));
+		} catch (EntityDoesNotExistException ex) {
+			return null;
+		}
+	}
+
+	public String getPageForEntity(AGwtEntity entity) {
+		// TODO only for subjects and entities with comments
+		if (getWorkarea().isShowing(forum)) return Page.getPageName(forum);
+
+		if (entity instanceof Task) {
+			if (getWorkarea().isShowing(whiteboard)) return Page.getPageName(whiteboard);
+			return Page.getPageName(sprintBacklog);
+		}
+		if (entity instanceof Requirement) {
+			Requirement requirement = (Requirement) entity;
+			boolean inCurrentSprint = requirement.isInCurrentSprint();
+			if (inCurrentSprint) {
+				if (getWorkarea().isShowing(sprintBacklog)) return Page.getPageName(sprintBacklog);
+				return Page.getPageName(whiteboard);
+			}
+			return Page.getPageName(productBacklog);
+		}
+		if (entity instanceof Sprint) {
+			Sprint sprint = (Sprint) entity;
+			if (sprint.isCurrent()) return Page.getPageName(whiteboard);
+			return Page.getPageName(sprintHistory);
+		}
+		if (entity instanceof Issue) return Page.getPageName(issueList);
+		if (entity instanceof Risk) return Page.getPageName(riskList);
+		if (entity instanceof Quality) return Page.getPageName(qualityBacklog);
+		if (entity instanceof Subject) return Page.getPageName(forum);
+		if (entity instanceof Impediment) return Page.getPageName(impedimentList);
+		if (entity instanceof File) return Page.getPageName(fileRepository);
+		if (entity instanceof Wikipage) return Page.getPageName(wiki);
+		if (entity instanceof SimpleEvent) return Page.getPageName(calendar);
+		if (entity instanceof Project) return Page.getPageName(dashboard);
+		if (entity instanceof ProjectEvent) return Page.getPageName(projectEventList);
+		if (entity instanceof Release) return Page.getPageName(releaseList);
+		if (entity instanceof BlogEntry) return Page.getPageName(blog);
+		if (entity instanceof User) return Page.getPageName(userList);
+		return null;
+	}
+
 	public void showPage(String pageName) {
 		Page page = pages.getPageByName(pageName);
 		if (page == null) {
-			log.warn("Page does not exist:", pageName);
+			if (pageName.equals(Page.getPageName(SearchResultsWidget.class))) {
+				ScrumNavigatorWidget navigator = getSidebar().getNavigator();
+				SearchResultsWidget results = Scope.get().getComponent(Search.class).getResultsWidget();
+				if (!searchResultsAdded) {
+					navigator.addItem("Search Results", results);
+					searchResultsAdded = true;
+				}
+				select(results);
+			} else {
+				log.warn("Page does not exist:", pageName);
+			}
 			return;
 		}
 		select(page.getWidget());
@@ -337,7 +383,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		select(dashboard);
 	}
 
-	public void showSprint(Sprint sprint) {
+	private void showSprint(Sprint sprint) {
 		if (sprint.isCurrent()) {
 			showSprintBacklog((Requirement) null);
 		} else {
@@ -345,42 +391,42 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		}
 	}
 
-	public void showProjectEventList(ProjectEvent event) {
+	private void showProjectEventList(ProjectEvent event) {
 		select(projectEventList);
 		projectEventList.select(event);
 	}
 
-	public void showSprintHistory(Sprint sprint) {
+	private void showSprintHistory(Sprint sprint) {
 		select(sprintHistory);
 		sprintHistory.select(sprint);
 	}
 
-	public void showIssue(Issue issue) {
+	private void showIssue(Issue issue) {
 		select(issueList);
 		issueList.select(issue);
 	}
 
-	public void showRelease(Release release) {
+	private void showRelease(Release release) {
 		select(releaseList);
 		releaseList.select(release);
 	}
 
-	public void showImpediment(Impediment impediment) {
+	private void showImpediment(Impediment impediment) {
 		select(impedimentList);
 		impedimentList.select(impediment);
 	}
 
-	public void showFile(File file) {
+	private void showFile(File file) {
 		select(fileRepository);
 		fileRepository.select(file);
 	}
 
-	public void showRisk(Risk risk) {
+	private void showRisk(Risk risk) {
 		select(riskList);
 		riskList.select(risk);
 	}
 
-	public void showTask(Task task) {
+	private void showTask(Task task) {
 		if (getWorkarea().isShowing(whiteboard)) {
 			showWhiteboard(task);
 		} else {
@@ -388,7 +434,7 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		}
 	}
 
-	public void showRequirement(Requirement requirement) {
+	private void showRequirement(Requirement requirement) {
 		boolean inCurrentSprint = requirement.isInCurrentSprint();
 		if (inCurrentSprint) {
 			if (getWorkarea().isShowing(productBacklog)) {
@@ -403,12 +449,12 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		}
 	}
 
-	public void showWiki(String page) {
+	private void showWiki(String page) {
 		select(wiki);
 		if (page != null) wiki.showPage(page);
 	}
 
-	public void showWiki(Wikipage page) {
+	private void showWiki(Wikipage page) {
 		select(wiki);
 		if (page != null) wiki.showPage(page);
 	}
@@ -422,12 +468,12 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		whiteboard.selectTask(task);
 	}
 
-	public void showWhiteboard(Requirement requirement) {
+	private void showWhiteboard(Requirement requirement) {
 		select(whiteboard);
 		whiteboard.selectRequirement(requirement);
 	}
 
-	public void showSprintBacklog(Task task) {
+	private void showSprintBacklog(Task task) {
 		select(sprintBacklog);
 		sprintBacklog.selectTask(task);
 	}
@@ -437,14 +483,9 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		if (requirement != null) sprintBacklog.selectRequirement(requirement);
 	}
 
-	public void showProductBacklog(Requirement requirement) {
+	private void showProductBacklog(Requirement requirement) {
 		select(productBacklog);
 		productBacklog.select(requirement);
-	}
-
-	public void showImpedimentList(Impediment impediment) {
-		select(impedimentList);
-		impedimentList.select(impediment);
 	}
 
 	public void showForum(ForumSupport entity) {
@@ -452,38 +493,24 @@ public class ProjectWorkspaceWidgets extends GProjectWorkspaceWidgets implements
 		forum.select(entity);
 	}
 
-	public void showIssueList(Issue issue) {
-		select(issueList);
-		issueList.select(issue);
-	}
-
-	public void showUserList(User user) {
+	private void showUserList(User user) {
 		select(userList);
 		userList.select(user);
 	}
 
-	public void showQualityBacklog(Quality quality) {
+	private void showQualityBacklog(Quality quality) {
 		select(qualityBacklog);
 		qualityBacklog.select(quality);
 	}
 
-	public void showBlog(BlogEntry blogEntry) {
+	private void showBlog(BlogEntry blogEntry) {
 		select(blog);
 		blog.select(blogEntry);
 	}
 
-	public void showRiskList(Risk risk) {
-		select(riskList);
-		riskList.select(risk);
-	}
-
-	public void showCalendar(SimpleEvent event) {
+	private void showCalendar(SimpleEvent event) {
 		select(calendar);
 		calendar.showEvent(event);
-	}
-
-	public void showProjectEvent(ProjectEvent event) {
-
 	}
 
 	private void select(AWidget widget) {

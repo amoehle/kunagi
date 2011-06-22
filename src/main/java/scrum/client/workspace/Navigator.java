@@ -26,6 +26,8 @@ import scrum.client.core.ApplicationStartedHandler;
 import scrum.client.project.Project;
 import scrum.client.project.ProjectDataReceivedEvent;
 import scrum.client.project.SelectProjectServiceCall;
+import scrum.client.search.SearchInputWidget;
+import scrum.client.search.SearchResultsWidget;
 import scrum.client.workspace.history.HistoryToken;
 import scrum.client.workspace.history.HistoryTokenObserver;
 
@@ -39,8 +41,8 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 	}
 
 	private HistoryToken historyToken;
-
 	private Mode currentMode;
+	private SearchInputWidget search;
 
 	@Override
 	public void initialize() {
@@ -88,6 +90,10 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 		historyToken.update(projectId);
 	}
 
+	public void gotoCurrentProjectSearch() {
+		historyToken.updatePage(Page.getPageName(SearchResultsWidget.class));
+	}
+
 	private void showProject(String projectId, String page, String entityId) {
 		Project project = Scope.get().getComponent(Project.class);
 		if (project != null && !projectId.equals(project.getId())) {
@@ -127,6 +133,10 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 					workspace.showEntityById(entityId);
 				}
 			}
+		}
+
+		if (search != null && !Page.getPageName(SearchResultsWidget.class).equals(historyToken.getPage())) {
+			search.clear();
 		}
 	}
 
@@ -184,21 +194,23 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 	}
 
 	public static String getEntityHistoryToken(AGwtEntity entity) {
+		String page = null;
+		ProjectWorkspaceWidgets workspace = Scope.get().getComponent(ProjectWorkspaceWidgets.class);
+		if (workspace != null) page = workspace.getPageForEntity(entity);
 		String id = entity.getId();
-		return getEntityHistoryToken(id);
+		return getEntityHistoryToken(page, id);
 	}
 
 	public static String getEntityHref(AGwtEntity entity) {
+		String page = null;
+		ProjectWorkspaceWidgets workspace = Scope.get().getComponent(ProjectWorkspaceWidgets.class);
+		if (workspace != null) page = workspace.getPageForEntity(entity);
 		String id = entity.getId();
-		return getEntityHref(id);
+		return '#' + getEntityHistoryToken(page, id);
 	}
 
 	public static String getEntityHref(String entityId) {
-		return '#' + getEntityHistoryToken(entityId);
-	}
-
-	public static String getEntityHistoryToken(String entityId) {
-		return getEntityHistoryToken(null, entityId);
+		return '#' + getEntityHistoryToken(null, entityId);
 	}
 
 	public static String getEntityHistoryToken(String page, String entityId) {
@@ -208,8 +220,10 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 		if (project != null) sb.append("project=").append(project.getId()).append("|");
 
 		Navigator navigator = Scope.get().getComponent(Navigator.class);
-		if (page == null && navigator != null) {
-			page = navigator.historyToken.getPage();
+		if (page == null) {
+			ProjectWorkspaceWidgets workspace = Scope.get().getComponent(ProjectWorkspaceWidgets.class);
+			if (workspace != null) page = workspace.getPageForEntity(entityId);
+			if (page == null && navigator != null) page = navigator.historyToken.getPage();
 		}
 		if (page != null) sb.append("page=").append(page).append("|");
 
@@ -219,6 +233,10 @@ public class Navigator extends GNavigator implements BlockExpandedHandler, Appli
 
 	public boolean isToggleMode() {
 		return historyToken.isToggle();
+	}
+
+	public void setSearch(SearchInputWidget search) {
+		this.search = search;
 	}
 
 }

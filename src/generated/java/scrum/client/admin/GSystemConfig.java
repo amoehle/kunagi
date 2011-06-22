@@ -1057,6 +1057,61 @@ public abstract class GSystemConfig
 
     }
 
+    // --- openIdDomains ---
+
+    private java.lang.String openIdDomains ;
+
+    public final java.lang.String getOpenIdDomains() {
+        return this.openIdDomains ;
+    }
+
+    public final SystemConfig setOpenIdDomains(java.lang.String openIdDomains) {
+        if (isOpenIdDomains(openIdDomains)) return (SystemConfig)this;
+        this.openIdDomains = openIdDomains ;
+        propertyChanged("openIdDomains", this.openIdDomains);
+        return (SystemConfig)this;
+    }
+
+    public final boolean isOpenIdDomains(java.lang.String openIdDomains) {
+        return equals(this.openIdDomains, openIdDomains);
+    }
+
+    private transient OpenIdDomainsModel openIdDomainsModel;
+
+    public OpenIdDomainsModel getOpenIdDomainsModel() {
+        if (openIdDomainsModel == null) openIdDomainsModel = createOpenIdDomainsModel();
+        return openIdDomainsModel;
+    }
+
+    protected OpenIdDomainsModel createOpenIdDomainsModel() { return new OpenIdDomainsModel(); }
+
+    protected class OpenIdDomainsModel extends ilarkesto.gwt.client.editor.ATextEditorModel {
+
+        @Override
+        public String getId() {
+            return "SystemConfig_openIdDomains";
+        }
+
+        @Override
+        public java.lang.String getValue() {
+            return getOpenIdDomains();
+        }
+
+        @Override
+        public void setValue(java.lang.String value) {
+            setOpenIdDomains(value);
+        }
+        @Override
+        public String getTooltip() { return "Limits accepted OpenID domains for new users. Multiple domains separated by commas allowed. Leave empty to allow all domains."; }
+
+        @Override
+        protected void onChangeValue(java.lang.String oldValue, java.lang.String newValue) {
+            super.onChangeValue(oldValue, newValue);
+            addUndo(this, oldValue);
+        }
+
+    }
+
     // --- versionCheckEnabled ---
 
     private boolean versionCheckEnabled ;
@@ -1531,6 +1586,7 @@ public abstract class GSystemConfig
         projectCreationDisabled  = (Boolean) props.get("projectCreationDisabled");
         defaultUserPassword  = (java.lang.String) props.get("defaultUserPassword");
         openIdDisabled  = (Boolean) props.get("openIdDisabled");
+        openIdDomains  = (java.lang.String) props.get("openIdDomains");
         versionCheckEnabled  = (Boolean) props.get("versionCheckEnabled");
         ldapEnabled  = (Boolean) props.get("ldapEnabled");
         ldapUrl  = (java.lang.String) props.get("ldapUrl");
@@ -1563,6 +1619,7 @@ public abstract class GSystemConfig
         properties.put("projectCreationDisabled", this.projectCreationDisabled);
         properties.put("defaultUserPassword", this.defaultUserPassword);
         properties.put("openIdDisabled", this.openIdDisabled);
+        properties.put("openIdDomains", this.openIdDomains);
         properties.put("versionCheckEnabled", this.versionCheckEnabled);
         properties.put("ldapEnabled", this.ldapEnabled);
         properties.put("ldapUrl", this.ldapUrl);

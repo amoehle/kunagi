@@ -56,8 +56,6 @@ public abstract class GSprintDao
         endsCache = null;
         sprintsByVelocityCache.clear();
         velocitysCache = null;
-        sprintsByCompletedRequirementLabelsCache.clear();
-        completedRequirementLabelssCache = null;
         sprintsByCompletedRequirementsDataCache.clear();
         completedRequirementsDatasCache = null;
         sprintsByIncompletedRequirementsDataCache.clear();
@@ -370,46 +368,6 @@ public abstract class GSprintDao
 
         public boolean test(Sprint e) {
             return e.isVelocity(value);
-        }
-
-    }
-
-    // -----------------------------------------------------------
-    // - completedRequirementLabels
-    // -----------------------------------------------------------
-
-    private final Cache<java.lang.String,Set<Sprint>> sprintsByCompletedRequirementLabelsCache = new Cache<java.lang.String,Set<Sprint>>(
-            new Cache.Factory<java.lang.String,Set<Sprint>>() {
-                public Set<Sprint> create(java.lang.String completedRequirementLabels) {
-                    return getEntities(new IsCompletedRequirementLabels(completedRequirementLabels));
-                }
-            });
-
-    public final Set<Sprint> getSprintsByCompletedRequirementLabels(java.lang.String completedRequirementLabels) {
-        return sprintsByCompletedRequirementLabelsCache.get(completedRequirementLabels);
-    }
-    private Set<java.lang.String> completedRequirementLabelssCache;
-
-    public final Set<java.lang.String> getCompletedRequirementLabelss() {
-        if (completedRequirementLabelssCache == null) {
-            completedRequirementLabelssCache = new HashSet<java.lang.String>();
-            for (Sprint e : getEntities()) {
-                if (e.isCompletedRequirementLabelsSet()) completedRequirementLabelssCache.add(e.getCompletedRequirementLabels());
-            }
-        }
-        return completedRequirementLabelssCache;
-    }
-
-    private static class IsCompletedRequirementLabels implements Predicate<Sprint> {
-
-        private java.lang.String value;
-
-        public IsCompletedRequirementLabels(java.lang.String value) {
-            this.value = value;
-        }
-
-        public boolean test(Sprint e) {
-            return e.isCompletedRequirementLabels(value);
         }
 
     }

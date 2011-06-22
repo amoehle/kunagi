@@ -54,6 +54,7 @@ public abstract class GSystemConfig
         properties.put("projectCreationDisabled", this.projectCreationDisabled);
         properties.put("defaultUserPassword", this.defaultUserPassword);
         properties.put("openIdDisabled", this.openIdDisabled);
+        properties.put("openIdDomains", this.openIdDomains);
         properties.put("versionCheckEnabled", this.versionCheckEnabled);
         properties.put("ldapEnabled", this.ldapEnabled);
         properties.put("ldapUrl", this.ldapUrl);
@@ -690,6 +691,42 @@ public abstract class GSystemConfig
     }
 
     // -----------------------------------------------------------
+    // - openIdDomains
+    // -----------------------------------------------------------
+
+    private java.lang.String openIdDomains;
+
+    public final java.lang.String getOpenIdDomains() {
+        return openIdDomains;
+    }
+
+    public final void setOpenIdDomains(java.lang.String openIdDomains) {
+        openIdDomains = prepareOpenIdDomains(openIdDomains);
+        if (isOpenIdDomains(openIdDomains)) return;
+        this.openIdDomains = openIdDomains;
+        updateLastModified();
+        fireModified("openIdDomains="+openIdDomains);
+    }
+
+    protected java.lang.String prepareOpenIdDomains(java.lang.String openIdDomains) {
+        openIdDomains = Str.removeUnreadableChars(openIdDomains);
+        return openIdDomains;
+    }
+
+    public final boolean isOpenIdDomainsSet() {
+        return this.openIdDomains != null;
+    }
+
+    public final boolean isOpenIdDomains(java.lang.String openIdDomains) {
+        if (this.openIdDomains == null && openIdDomains == null) return true;
+        return this.openIdDomains != null && this.openIdDomains.equals(openIdDomains);
+    }
+
+    protected final void updateOpenIdDomains(Object value) {
+        setOpenIdDomains((java.lang.String)value);
+    }
+
+    // -----------------------------------------------------------
     // - versionCheckEnabled
     // -----------------------------------------------------------
 
@@ -987,6 +1024,7 @@ public abstract class GSystemConfig
             if (property.equals("projectCreationDisabled")) updateProjectCreationDisabled(value);
             if (property.equals("defaultUserPassword")) updateDefaultUserPassword(value);
             if (property.equals("openIdDisabled")) updateOpenIdDisabled(value);
+            if (property.equals("openIdDomains")) updateOpenIdDomains(value);
             if (property.equals("versionCheckEnabled")) updateVersionCheckEnabled(value);
             if (property.equals("ldapEnabled")) updateLdapEnabled(value);
             if (property.equals("ldapUrl")) updateLdapUrl(value);

@@ -59,6 +59,7 @@ public class ReleaseTask extends ATask {
 			} catch (Proc.UnexpectedReturnCodeException ex) {
 				log.info("Release script failed.", ex);
 				release.setScriptOutput(ex.getOutput());
+				release.setScriptRunning(false);
 				transactionService.commit();
 				String message = "Releasing failed: " + release.getReferenceAndLabel();
 				AEntity chatMessage = chatMessageDao.createChatMessage(project, message);

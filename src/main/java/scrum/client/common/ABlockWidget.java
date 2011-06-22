@@ -23,7 +23,6 @@ import scrum.client.workspace.BlockCollapsedEvent;
 import scrum.client.workspace.BlockExpandedEvent;
 import scrum.client.workspace.Navigator;
 
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -260,10 +259,8 @@ public abstract class ABlockWidget<O> extends AScrumWidget {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			NativeEvent nativeEvent = event.getNativeEvent();
-			boolean modifierDown = nativeEvent.getCtrlKey() || nativeEvent.getShiftKey() || nativeEvent.getAltKey();
-			list.toggleExtension(getObject(), !modifierDown);
-			// event.stopPropagation();
+			list.toggleExtension(getObject(), true);
+			event.stopPropagation();
 		}
 
 	}
