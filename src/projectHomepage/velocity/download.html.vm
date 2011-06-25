@@ -13,7 +13,7 @@
     </div>
     <div class="sidebar">
         <div class="starter">
-            <a href="http://sourceforge.net/projects/kunagi/files/$project.currentRelease">Download</a>
+            <a href="http://sourceforge.net/projects/kunagi/files/$project.currentRelease" target="_blank">Download</a>
         </div>
         <div class="smallText" style="text-align: center;">Current release is $project.currentRelease</div>
     </div>
